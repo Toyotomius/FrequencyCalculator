@@ -1,15 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using FrequencyCalculator.DataModels;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FrequencyCalculator
 {
-    public interface IIndividualFrequency<T>
-    {
-        public List<Singles<T>> CalculateNestedSingles(IEnumerable<IEnumerable<T>> nestedList);
-
-        public List<Singles<T>> CalculateSingles(IEnumerable<T> flatList);
-    }
-
     public class CalculateIndividualFrequency<T> : IIndividualFrequency<T>
     {
         public List<Singles<T>> CalculateNestedSingles(IEnumerable<IEnumerable<T>> nestedList)
@@ -43,11 +37,5 @@ namespace FrequencyCalculator
                          }).ToList();
             return query;
         }
-    }
-
-    public class Singles<T>
-    {
-        public int Frequency { get; set; }
-        public T Item { get; set; }
     }
 }
