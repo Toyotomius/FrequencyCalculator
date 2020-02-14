@@ -13,6 +13,10 @@ namespace FrequencyCalculator
         /// <returns>bool true if nested</returns>
         public static bool IsNested<T>(this IEnumerable<T> input)
         {
+            if(input.Any(x => x is null))
+            {
+                return false;
+            }
             return (input.Any(x => x.GetType().GetInterfaces()
              .Any(i => i.IsGenericType
              && i.GetGenericTypeDefinition() == typeof(IEnumerable<>)))
