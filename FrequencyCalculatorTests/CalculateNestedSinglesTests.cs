@@ -1,29 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Xunit;
+using FrequencyCalculator.Tests.TestData;
 
 namespace FrequencyCalculator.Tests
 {
     public class CalculateNestedSinglesTests
     {
-        [Fact]
-        public void CalculateNestedSingles_ShouldCalculateWhenPassed_ListOfIntLists()
+
+
+        [Theory, MemberData(nameof(NestedSinglesTestData.NestedSinglesData), MemberType = typeof(NestedSinglesTestData))]
+        public void CalculateNestedSingles_ShouldCalculateWhenPassed_NestedListsOrArrays<T>(IEnumerable<IEnumerable<T>> nestedList)
         {
-            var calculateSingleFrequency = CreateDefaultSinglesCalculator<int>();
-            var nestedIntList = new List<List<int>>() {
-                                                            new List<int> { 0, 0 },
-                                                            new List<int> { 0, 0 }
-                                                       };
+            var calculateSingleFrequency = CreateDefaultSinglesCalculator<T>();
 
-            var actual = calculateSingleFrequency.CalculateNestedSingles(nestedIntList);
+            var actual = calculateSingleFrequency.CalculateNestedSingles(nestedList);
 
-            Assert.Contains(actual, x => x.Item == 0 && x.Frequency == 4);
+            Assert.Contains(actual, x => x.Frequency == 4);
         }
-        
+
         private IIndividualFrequency<T> CreateDefaultSinglesCalculator<T>()
         {
             return new CalculateIndividualFrequency<T>();
         }
-
     }
 }
