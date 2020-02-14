@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-
 
 namespace FrequencyCalculator
 {
@@ -45,7 +43,6 @@ namespace FrequencyCalculator
                          }).ToList();
             return query;
         }
-
     }
 
     public class Singles<T>
