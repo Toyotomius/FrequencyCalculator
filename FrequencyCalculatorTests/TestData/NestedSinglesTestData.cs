@@ -4,7 +4,7 @@ namespace FrequencyCalculator.Tests.TestData
 {
     public static class NestedSinglesTestData
     {
-        public static IEnumerable<object[]> NestedSinglesCanCalculate_Data()
+        public static IEnumerable<object[]> SinglesCanCalculate_NestedData()
         {
             yield return new object[]
             {
@@ -80,7 +80,7 @@ namespace FrequencyCalculator.Tests.TestData
             };
         }
 
-        public static IEnumerable<object[]> NestedSinglesReturnsEmpty_Data()
+        public static IEnumerable<object[]> SinglesReturnEmpty_EmptyNestedData()
         {
             yield return new object[]
             {

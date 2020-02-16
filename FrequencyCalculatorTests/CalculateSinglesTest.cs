@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Xunit;
+using FrequencyCalculator.Tests.TestData;
 
 namespace FrequencyCalculator.Tests
 {
@@ -39,7 +40,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void CalculateSinglesFrequency_ShouldThrowErrorWhenPassed_ListOfIntLists()
+        public void CalculateSinglesFrequency_ShouldThrowErrorWhenInstatiatedWith_ListOfIntLists()
         {
             var calculateSingleFrequency = CreateDefaultSinglesCalculator<List<int>>();
             var nestedIntList = new List<List<int>>() {
@@ -47,11 +48,11 @@ namespace FrequencyCalculator.Tests
                                                             new List<int> { 0, 0 }
                                                        };
 
-            Assert.Throws<System.ArgumentException>(() => calculateSingleFrequency.CalculateSingles(nestedIntList));
+            Assert.Throws<System.InvalidCastException>(() => calculateSingleFrequency.CalculateSingles(nestedIntList));
         }
 
         [Fact]
-        public void CalculateSinglesFrequency_ShouldThrowErrorWhenPassed_ListOfStringLists()
+        public void CalculateSinglesFrequency_ShouldThrowErrorWhenInstantiatedWith_ListOfStringLists()
         {
             var calculateSingleFrequency = CreateDefaultSinglesCalculator<List<string>>();
             var nestedStringList = new List<List<string>>() {
@@ -59,8 +60,39 @@ namespace FrequencyCalculator.Tests
                                                                 new List<string> {"0", "0" }
                                                             };
 
-            Assert.Throws<System.ArgumentException>(() => calculateSingleFrequency.CalculateSingles(nestedStringList));
+            Assert.Throws<System.InvalidCastException>(() => calculateSingleFrequency.CalculateSingles(nestedStringList));
         }
+
+        [Theory, MemberData(nameof(NestedSinglesTestData.SinglesCanCalculate_NestedData), MemberType = typeof(NestedSinglesTestData))]
+        public void CalculateNestedSingles_ShouldCalculateWhenPassed_NestedListsOrArrays<T>(IEnumerable<IEnumerable<T>> nestedData)
+        {
+            var calculateSingleFrequency = CreateDefaultSinglesCalculator<T>();
+
+            var actual = calculateSingleFrequency.CalculateSingles(nestedData);
+
+            Assert.Contains(actual, x => x.Frequency == 4);
+        }
+
+        [Theory]
+        [MemberData(nameof(NestedSinglesTestData.SinglesReturnEmpty_EmptyNestedData), MemberType = typeof(NestedSinglesTestData))]
+        public void CalculateNestedSingles_ShouldReturnEmptyWhenPassed_EmptyListsOrArrays<T>(IEnumerable<IEnumerable<T>> emptyData)
+        {
+            var calculateSingleFrequency = CreateDefaultSinglesCalculator<T>();
+
+            var actual = calculateSingleFrequency.CalculateSingles(emptyData);
+
+            Assert.Empty(actual);
+        }
+
+        [Fact]
+        public void CalculateNestedSingles_ShouldThrowErrorWhenPassed_NullParentList()
+        {
+            var nullList = new List<List<int>> { null };
+            var calculateSingleFrequency = CreateDefaultSinglesCalculator<int>();
+
+            Assert.Throws<System.ArgumentNullException>(() => calculateSingleFrequency.CalculateSingles(nullList));
+        }
+        //TODO: Find a way to check for null parents earlier.
 
         private IIndividualFrequency<T> CreateDefaultSinglesCalculator<T>()
         {

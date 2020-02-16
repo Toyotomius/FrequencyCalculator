@@ -8,14 +8,18 @@ namespace FrequencyConsole
     {
         private static void Main(string[] args)
         {
-            var test = new List<List<string>> {  null  };
-
-            IIndividualFrequency<string> freqCalc = new CalculateIndividualFrequency<string>();
-            var result = freqCalc.CalculateNestedSingles(test);
-
-            foreach (var itm in result)
+            var test = new List<List<int>>
             {
-                Console.WriteLine($" Number is {itm.Item} : Frequency is {itm.Frequency} ");
+                null
+            };
+
+            IIndividualFrequency<int> freqCalc = new CalculateIndividualFrequency<int>();
+
+            var n = freqCalc.CalculateSingles(test);
+
+            foreach (var itm in n)
+            {
+                Console.WriteLine($"{itm.Item} : {itm.Frequency}");
             }
         }
     }
