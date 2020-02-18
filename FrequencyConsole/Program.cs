@@ -8,13 +8,11 @@ namespace FrequencyConsole
     {
         private static void Main(string[] args)
         {
-            var test = new List<List<int>>
-            {
-                    new List<int> { 0, 0 },
-                    new List<int> { 0, 0 }
-            };
+            var nullString = new List<string> { null, "1", "1" };
+            
+                
 
-            var n = test.CalculateSingles<int>();
+            var n = nullString.CalculateSingles<string>();
 
             foreach (var itm in n)
             {

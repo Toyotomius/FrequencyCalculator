@@ -28,7 +28,8 @@ namespace FrequencyCalculator
             {
                 if (itm is null)
                 {
-                    throw new System.ArgumentNullException($"{collection}", $"Parent collection passed to {nameof(CalculateSingles)} is null");
+                    continue;
+                    
                 }
                 list.Add((T)itm);
             }

@@ -9,34 +9,11 @@ namespace FrequencyCalculator.DataModels
     public class Singles<T>
     {
         private T _Item;
-        private string _ItemForNullStrings ="";
+        
         public int Frequency { get; set; }
 
-        public T Item
-        {
-            get
-            {
-                if (_ItemForNullStrings.Length > 0)
-                {
-                   var _item = (T)Convert.ChangeType(_ItemForNullStrings, typeof(T));
-                    return _item;
-                }
-                else
-                {
-                    return _Item;
-                }
-            }
-            set
-            {
-                if (value is null)
-                {
-                    _ItemForNullStrings = "Null String";
-                }
-                else
-                {
-                    _Item = value;
-                }
-            }
-        }
+        public T Item { get; set; }
+        
+            
     }
 }
