@@ -10,14 +10,14 @@ namespace FrequencyCalculator
     /// (CalculateSingles & CalculateNestedSingles)
     /// </summary>
     /// <typeparam name="T">Requires base type (int, string, etc) during instantiation</typeparam>
-    public class CalculateIndividualFrequency<T> : IIndividualFrequency<T>
+    public static class CalculateIndividualFrequency
     {
         /// <summary>
         /// Calculates frequency of individual items from collections. Uses recursion for nested collections.
         /// </summary>
         /// <param name="collection"></param>
         /// <returns></returns>
-        public List<Singles<T>> CalculateSingles(IEnumerable collection)
+        public static List<Singles<T>> CalculateSingles<T>(this IEnumerable collection)
         {
             
            

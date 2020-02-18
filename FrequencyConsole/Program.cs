@@ -10,12 +10,11 @@ namespace FrequencyConsole
         {
             var test = new List<List<int>>
             {
-                null
+                    new List<int> { 0, 0 },
+                    new List<int> { 0, 0 }
             };
 
-            IIndividualFrequency<int> freqCalc = new CalculateIndividualFrequency<int>();
-
-            var n = freqCalc.CalculateSingles(test);
+            var n = test.CalculateSingles<int>();
 
             foreach (var itm in n)
             {
