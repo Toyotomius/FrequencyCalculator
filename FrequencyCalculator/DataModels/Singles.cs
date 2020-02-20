@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FrequencyCalculator.DataModels
+﻿namespace FrequencyCalculator.DataModels
 {
     /// <summary>
     /// Object that contains individual item and frequency of item. Takes item type from caller.
@@ -8,12 +6,8 @@ namespace FrequencyCalculator.DataModels
     /// <typeparam name="T">Type provided by caller</typeparam>
     public class Singles<T>
     {
-        private T _Item;
-        
         public int Frequency { get; set; }
 
         public T Item { get; set; }
-        
-            
     }
 }
