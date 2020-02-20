@@ -1,6 +1,5 @@
-﻿using FrequencyCalculator;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace FrequencyConsole
 {
@@ -8,16 +7,15 @@ namespace FrequencyConsole
     {
         private static void Main(string[] args)
         {
-            var nullString = new List<string> { null, "1", "1" };
-            
-                
-
-            var n = nullString.CalculateSingles<string>();
-
-            foreach (var itm in n)
+            var nestInt = new List<List<int>>
             {
-                Console.WriteLine($"{itm.Item} : {itm.Frequency}");
-            }
+                new List<int>{ 1, 2 },
+                new List<int>{ 1, 2 }
+            };
+
+            var distinct = nestInt.SelectMany(x => x).Distinct();
+
+            System.Console.WriteLine("Breakpoint");
         }
     }
 }
