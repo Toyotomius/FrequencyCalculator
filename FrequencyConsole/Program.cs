@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using FrequencyCalculator.IEnumerableExtensions;
+using System.Collections.Generic;
 
 namespace FrequencyConsole
 {
@@ -7,13 +7,15 @@ namespace FrequencyConsole
     {
         private static void Main(string[] args)
         {
-            var nestInt = new List<List<int>>
-            {
-                new List<int>{ 1, 2 },
-                new List<int>{ 1, 2 }
-            };
+            var test = new List<List<string>>
+                {
+                    new List<string> { "1", "2","3" },
+                    new List<string> { "1", "2","3","4" },
+                    new List<string> { "1", "2", null },
+                    null
+                };
 
-            var distinct = nestInt.SelectMany(x => x).Distinct();
+            var results = test.CalculatePairs<string>();
 
             System.Console.WriteLine("Breakpoint");
         }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FrequencyCalculator
+namespace FrequencyCalculator.IEnumerableExtensions
 {
     /// <summary>
     /// Class containing methods to calculate frequency in flat and nested lists
@@ -19,17 +19,14 @@ namespace FrequencyCalculator
         /// <returns></returns>
         public static List<Singles<T>> CalculateSingles<T>(this IEnumerable collection)
         {
-            
-           
             var list = new List<T>();
             var flattened = collection.Flatten();
 
-            foreach(var itm in flattened)
+            foreach (var itm in flattened)
             {
                 if (itm is null)
                 {
                     continue;
-                    
                 }
                 list.Add((T)itm);
             }

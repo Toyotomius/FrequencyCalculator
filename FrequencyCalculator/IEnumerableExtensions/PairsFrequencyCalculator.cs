@@ -9,18 +9,18 @@ namespace FrequencyCalculator.IEnumerableExtensions
     {
         public static List<Pairs<T>> CalculatePairs<T>(this IEnumerable<IEnumerable<T>> nestedCollection) where T : IComparable
         {
-            var distinct = nestedCollection.SelectMany(x => x).Distinct();
+            var distinct = nestedCollection.Where(x => x is object).SelectMany(x => x).Where(x => x is object).Distinct();
 
             var pairs = from firstNum in distinct
                         from secondNum in distinct
-                        where firstNum.CompareTo(secondNum) > 0
+                        where firstNum.CompareTo(secondNum) < 0 && firstNum is object
                         select new
                         {
                             First = firstNum,
                             Second = secondNum
                         };
 
-            return (from n in nestedCollection
+            return (from n in nestedCollection where n != null
                     from p in pairs
                     where n.Contains(p.First) && n.Contains(p.Second)
                     group n by p into g
