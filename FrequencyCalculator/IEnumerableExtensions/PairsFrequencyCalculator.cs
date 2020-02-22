@@ -34,3 +34,5 @@ namespace FrequencyCalculator.IEnumerableExtensions
         }
     }
 }
+
+//TODO: See if intersects would be more performant.

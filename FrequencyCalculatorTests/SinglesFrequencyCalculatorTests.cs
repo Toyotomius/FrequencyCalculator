@@ -141,6 +141,35 @@ namespace FrequencyCalculator.Tests
 
             Assert.Empty(actual);
         }
+        [Fact]
+        public void CalculateSinglesFrequency_ShouldReturnCountOf_SpecifiedValueInSortedCollection()
+        {
+            var valuePassed = "1";
+            var stringList = new List<string> { "1", "1", "2", "3" };
+
+            var expected = new Singles<string> { Item = "1", Frequency = 2 };
+
+            var actual = stringList.CalculateSingles<string>(valuePassed, true);
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
+        }
+
+        [Fact]
+        public void CalculateSinglesFrequency_ShouldReturnCountOf_SpecifiedValueInUnSortedCollection()
+        {
+            var valuePassed = "1";
+            var stringList = new List<string> { "1", "3", "2", "1" };
+
+            var expected = new Singles<string> { Item = "1", Frequency = 2 };
+
+            var actual = stringList.CalculateSingles<string>(valuePassed, false);
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
+        }
 
         //TODO: Find a way to check for null parents earlier.
     }
