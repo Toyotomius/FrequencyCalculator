@@ -20,19 +20,12 @@ namespace FrequencyCalculator.IEnumerableExtensions
         /// <returns> A List of Singles objects that each contain an element and its frequency </returns>
         public static List<Singles<T>> CalculateSingles<T>(this IEnumerable collection)
         {
-            var list = new List<T>();
-            var flattened = collection.Flatten();
+            
+            var flattened = collection.Flatten<T>();
 
-            foreach (var itm in flattened)
-            {
-                if (itm is null)
-                {
-                    continue;
-                }
-                list.Add((T)itm);
-            }
+            
 
-            var query = (from item in list
+            var query = (from item in flattened
                          group item by item into g
                          orderby g.Count() descending
                          select new Singles<T>
@@ -58,20 +51,12 @@ namespace FrequencyCalculator.IEnumerableExtensions
         {
             if (IsSorted) { return SinglesSorted.CalculateSinglesSorted(collection, value); }
 
-            var flattened = collection.Flatten();
-            var list = new List<T>();
-            foreach (var itm in flattened)
-            {
-                if (itm is null)
-                {
-                    continue;
-                }
-                list.Add((T)itm);
-            }
+            var flattened = collection.Flatten<T>();
+         
 
             var count = 0;
 
-            foreach (var itm in list)
+            foreach (var itm in flattened)
             {
                 if (itm.Equals(value))
                 {

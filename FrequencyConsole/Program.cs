@@ -1,7 +1,9 @@
 ﻿using FrequencyCalculator.IEnumerableExtensions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 
 namespace FrequencyConsole
 {
@@ -11,30 +13,24 @@ namespace FrequencyConsole
         {
             var watch = new Stopwatch();
             var rand = new Random();
-            var list = new List<string>();
-            for (var i = 0; i < 200000; i++)
+            
+
+            string json = "";
+            using (var sr = new StreamReader("sortedlist.json"))
             {
-                list.Add(rand.Next(0, 101).ToString());
+                json = sr.ReadToEnd();
             }
 
-            list.Sort();
-
+            var list = JsonConvert.DeserializeObject<List<int>>(json);
             watch.Start();
-            var results = list.CalculateSingles<string>("99", true);
+            var result = list.CalculateSingles<int>();
             watch.Stop();
-
-            var result = list.CalculateSingles<string>("99", false);
-
-            var totalResult = list.CalculateSingles<string>();
-
-            Console.WriteLine(watch.ElapsedMilliseconds);
-
-            Console.WriteLine($"{results.Item}  : {results.Frequency}");
-            Console.WriteLine($"{result.Item}  : {result.Frequency}");
-            foreach(var itm in totalResult)
+            foreach(var itm in result)
             {
                 Console.WriteLine($"{itm.Item}  : {itm.Frequency}");
             }
+
+            Console.WriteLine(watch.ElapsedMilliseconds);
 
             System.Console.WriteLine("Breakpoint");
 
