@@ -13,26 +13,45 @@ namespace FrequencyConsole
         {
             var watch = new Stopwatch();
             var rand = new Random();
-            
 
-            string json = "";
-            using (var sr = new StreamReader("sortedlist.json"))
+            //string json = "";
+            //using (var sr = new StreamReader("sortedlist.json"))
+            //{
+            //    json = sr.ReadToEnd();
+            //}
+
+            //var list = JsonConvert.DeserializeObject<List<int>>(json);
+            //watch.Start();
+            //var result = list.CalculateSingles<int>();
+            //watch.Stop();
+            //foreach(var itm in result)
+            //{
+            //    Console.WriteLine($"{itm.Item}  : {itm.Frequency}");
+            //}
+
+            //Console.WriteLine(watch.ElapsedMilliseconds);
+
+            var json = "";
+
+            using (var sw = new StreamReader("pairstest.json"))
             {
-                json = sr.ReadToEnd();
+                json = sw.ReadToEnd();
             }
 
-            var list = JsonConvert.DeserializeObject<List<int>>(json);
+            var list = JsonConvert.DeserializeObject<List<List<int>>>(json);
+
+            var arr = new int[] { 2, 5 };
+
             watch.Start();
-            var result = list.CalculateSingles<int>();
+            var result = list.CalculatePairs(arr);
+
+            Console.WriteLine($"{result.Item} : {result.Item2} : {result.Frequency}");
+
             watch.Stop();
-            foreach(var itm in result)
-            {
-                Console.WriteLine($"{itm.Item}  : {itm.Frequency}");
-            }
 
-            Console.WriteLine(watch.ElapsedMilliseconds);
+            Console.WriteLine("\n\n" + watch.ElapsedMilliseconds);
 
-            System.Console.WriteLine("Breakpoint");
+            Console.WriteLine("Breakpoint");
 
             //TODO: Set up check for binary search and nested collections.
         }
