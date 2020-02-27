@@ -33,19 +33,22 @@ namespace FrequencyConsole
 
             var json = "";
 
-            using (var sw = new StreamReader("pairstest.json"))
+            using (var sw = new StreamReader("singlestest.json"))
             {
                 json = sw.ReadToEnd();
             }
 
-            var list = JsonConvert.DeserializeObject<List<List<int>>>(json);
+            var list = JsonConvert.DeserializeObject<List<int>>(json);
 
             var arr = new int[] { 2, 5 };
 
             watch.Start();
-            var result = list.CalculatePairs(arr);
+            var results = list.CalculateSingles<int>(arr, true);
 
-            Console.WriteLine($"{result.Item} : {result.Item2} : {result.Frequency}");
+            foreach(var result in results)
+            {
+                Console.WriteLine($"{result.Item} :: {result.Frequency}");
+            }
 
             watch.Stop();
 

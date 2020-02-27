@@ -124,24 +124,6 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void CalculateSinglesFrequency_ShouldReturnEmpty_NullLists()
-        {
-            var nullString = new List<string> { null };
-
-            var actual = nullString.CalculateSingles<string>();
-
-            Assert.Empty(actual);
-        }
-
-        [Theory]
-        [MemberData(nameof(NestedSinglesTestData.SinglesReturnEmpty_EmptyNestedData), MemberType = typeof(NestedSinglesTestData))]
-        public void CalculateSinglesFrequency_ShouldReturnEmptyWhenPassed_EmptyListsOrArrays<T>(IEnumerable<IEnumerable<T>> emptyData)
-        {
-            var actual = emptyData.CalculateSingles<T>();
-
-            Assert.Empty(actual);
-        }
-        [Fact]
         public void CalculateSinglesFrequency_ShouldReturnCountOf_SpecifiedValueInSortedCollection()
         {
             var valuePassed = "1";
@@ -171,6 +153,39 @@ namespace FrequencyCalculator.Tests
             Assert.Equal(expectedStr, actualStr);
         }
 
-        //TODO: Find a way to check for null parents earlier.
+        [Fact]
+        public void CalculateSinglesFrequency_ShouldReturnEmpty_NullLists()
+        {
+            var nullString = new List<string> { null };
+
+            var actual = nullString.CalculateSingles<string>();
+
+            Assert.Empty(actual);
+        }
+
+        [Theory]
+        [MemberData(nameof(NestedSinglesTestData.SinglesReturnEmpty_EmptyNestedData), MemberType = typeof(NestedSinglesTestData))]
+        public void CalculateSinglesFrequency_ShouldReturnEmptyWhenPassed_EmptyListsOrArrays<T>(IEnumerable<IEnumerable<T>> emptyData)
+        {
+            var actual = emptyData.CalculateSingles<T>();
+
+            Assert.Empty(actual);
+        }
+
+        [Fact]
+        public void CalculateSinglesFrequency_ShouldReturnIEnumerableofSinglesWhenPassed_CollectionToCalculate()
+        {
+            var valuesPassed = new List<string> { "1", "2" };
+            var stringList = new List<string> { "1", "3", "2", "1" };
+
+            var expected = new List<Singles<string>>{ new Singles<string> { Item = "1", Frequency = 2 },
+                                                      new Singles<string> { Item = "2", Frequency = 1 }};
+
+            var actual = stringList.CalculateSingles<string>(valuesPassed, false);
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
+        }
     }
 }
