@@ -9,7 +9,7 @@ namespace FrequencyCalculator.Tests
     public class PairsFrequencyCalculatorTests
     {
         [Fact]
-        public void CalculatePairsFrequency_ShouldCalculateWhenPassed_NestedIntList()
+        public void ShouldCalculateWhenPassed_NestedIntList()
         {
             var nestedInt = new List<List<int>>
             {
@@ -25,8 +25,9 @@ namespace FrequencyCalculator.Tests
 
             Assert.Equal(expectedStr, actualStr);
         }
+
         [Fact]
-        public void CalculatePairsFrequency_ShouldCalculateWhenPassed_NestedStringList()
+        public void ShouldCalculateWhenPassed_NestedStringList()
         {
             var nestedInt = new List<List<string>>
             {
@@ -44,7 +45,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void CalculatePairsFrequency_ShouldCalculateWhenPassed_NullList()
+        public void ShouldCalculateWhenPassed_NullList()
         {
             var nestedInt = new List<List<string>>
             {
@@ -63,7 +64,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void CalculatePairsFrequency_ShouldCalculateWhenPassed_NullValues()
+        public void ShouldCalculateWhenPassed_NullValues()
         {
             var nestedInt = new List<List<string>>
             {
@@ -73,6 +74,43 @@ namespace FrequencyCalculator.Tests
             var expected = new List<Pairs<string>> { new Pairs<string> { Item = "1", Item2 = "2", Frequency = 2 } };
 
             var actual = nestedInt.CalculatePairs();
+
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
+        }
+
+        [Fact]
+        public void ShouldReturnCountOf_SpecifiedValuesInCollection()
+        {
+            var nestedInt = new List<List<string>>
+            {
+                new List<string> { "1","2", "3" },
+                new List<string> { "1","2", "3" }
+            };
+            var itemsToFind = new List<string> { "1", "2" };
+            var expected = new Pairs<string> { Item = "1", Item2 = "2", Frequency = 2 };
+
+            var actual = nestedInt.CalculatePairs(itemsToFind);
+
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
+        }
+        [Fact]
+        public void ShouldReturnEmptyPairsWhenPassed_NullValueAsSpecifiedValue()
+        {
+            var nestedInt = new List<List<string>>
+            {
+                new List<string> { "1","2", "3" },
+                new List<string> { "1","2", "3" }
+            };
+            var itemsToFind = new List<string> { "1", null };
+            var expected = new Pairs<string> { };
+
+            var actual = nestedInt.CalculatePairs(itemsToFind);
 
             var actualStr = JsonConvert.SerializeObject(actual);
             var expectedStr = JsonConvert.SerializeObject(expected);
