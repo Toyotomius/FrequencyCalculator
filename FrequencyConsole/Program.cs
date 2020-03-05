@@ -31,28 +31,14 @@ namespace FrequencyConsole
 
             //Console.WriteLine(watch.ElapsedMilliseconds);
 
-            var json = "";
+            var list = new List<List<string>> { new List<string> { "1", "2"},
+                                                new List<string> {"1", "2"} };
 
-            using (var sw = new StreamReader("singlestest.json"))
-            {
-                json = sw.ReadToEnd();
-            }
+            var test = new List<string> { "1", null };
 
-            var list = JsonConvert.DeserializeObject<List<int>>(json);
-
-            var arr = new int[] { 2, 5 };
-
-            watch.Start();
-            var results = list.CalculateSingles<int>(arr, true);
-
-            foreach(var result in results)
-            {
-                Console.WriteLine($"{result.Item} :: {result.Frequency}");
-            }
-
-            watch.Stop();
-
-            Console.WriteLine("\n\n" + watch.ElapsedMilliseconds);
+            var results = list.CalculatePairs(test);
+            Console.WriteLine(results.Item);
+            
 
             Console.WriteLine("Breakpoint");
 

@@ -7,18 +7,24 @@ namespace FrequencyCalculator.IEnumerableExtensions
 {
     public static class PairsFrequencyCalculator
     {
+        /// <summary>
+        /// Calculates all distinct pairs from a nested collection and their frequencies
+        /// </summary>
+        /// <typeparam name="T"> Type of the base element that must implement IComparable </typeparam>
+        /// <param name="nestedCollection"> </param>
+        /// <returns> List of Pairs object sorted in descending order of frequency </returns>
         public static List<Pairs<T>> CalculatePairs<T>(this IEnumerable<IEnumerable<T>> nestedCollection) where T : IComparable
         {
             var distinct = nestedCollection.Where(x => x is object).SelectMany(x => x).Where(x => x is object).Distinct().ToArray();
 
             var pairs = (from firstNum in distinct
-                        from secondNum in distinct
-                        where firstNum.CompareTo(secondNum) < 0 && firstNum is object
-                        select new
-                        {
-                            First = firstNum,
-                            Second = secondNum
-                        }).ToArray();
+                         from secondNum in distinct
+                         where firstNum.CompareTo(secondNum) < 0 && firstNum is object
+                         select new
+                         {
+                             First = firstNum,
+                             Second = secondNum
+                         }).ToArray();
 
             return (from n in nestedCollection
                     where n != null
@@ -34,11 +40,18 @@ namespace FrequencyCalculator.IEnumerableExtensions
                     }).ToList();
         }
 
+        /// <summary> Calculates frequency of a specified distinct pair of elements. </summary> 
+        /// <typeparam name="T">Type of base element</typeparam> 
+        /// <param name="nestedCollection">Collection that contains the pair interested in</param> 
+        /// <param name="pair">Pair of elements to find the frequency of in the nested collection</param>
+        /// <returns>Empty if either pair element is null. Else returns a single Pair<T> object containing the pair
+        /// searched and its frequency</returns>
         public static Pairs<T> CalculatePairs<T>(this IEnumerable<IEnumerable<T>> nestedCollection, IList<T> pair) where T : IComparable
         {
-
-
-
+            if (pair[0] is null || pair[1] is null)
+            {
+                return new Pairs<T> { };
+            }
 
             return (from n in nestedCollection
                     where n != null
@@ -53,5 +66,3 @@ namespace FrequencyCalculator.IEnumerableExtensions
         }
     }
 }
-
-//TODO: See if intersects would be more performant.
