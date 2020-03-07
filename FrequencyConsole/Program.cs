@@ -36,11 +36,18 @@ namespace FrequencyConsole
 
             var test = new List<string> { "1", null };
 
-            var results = list.CalculatePairs(test);
-            Console.WriteLine(results.Item);
-            
+            var results = list.CalculateTriplets();
+
+            foreach(var itm in results)
+            {
+                Console.WriteLine(itm.Item3);
+                Console.WriteLine(itm.Frequency);
+            }
+
 
             Console.WriteLine("Breakpoint");
+
+
 
             //TODO: Set up check for binary search and nested collections.
         }
