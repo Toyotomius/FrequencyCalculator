@@ -7,18 +7,17 @@ using System.Linq;
 
 namespace FrequencyCalculator.IEnumerableExtensions
 {
-    /// <summary> Class containing methods to calculate frequency in flat and nested lists (CalculateSingles &
-    /// CalculateNestedSingles) </summary>
+    /// <summary> Class containing methods to calculate individual item frequency in flat and nested lists </summary>
 
     public static class CalculateIndividualFrequency
     {
         /// <summary>
         /// Calculates frequency of individual items from collections. Uses recursion to flatten nested collections.
         /// </summary>
-        /// <typeparam name="T"> Primitive type of collection elements to be searched </typeparam>
+        /// <typeparam name="T"> Type of collection elements to be calculated. Must implement IComparable </typeparam>
         /// <param name="collection"> </param>
         /// <returns> A List of Singles objects that each contain an element and its frequency </returns>
-        public static List<Singles<T>> CalculateSingles<T>(this IEnumerable collection)
+        public static List<Singles<T>> CalculateSingles<T>(this IEnumerable collection) where T : IComparable
         {
             var flattened = collection.Flatten<T>();
 
@@ -36,7 +35,7 @@ namespace FrequencyCalculator.IEnumerableExtensions
         /// <summary>
         /// Calculates frequency of an individual item from collections. Uses recursion to flatten nested collections.
         /// </summary>
-        /// <typeparam name="T"> Primitive type of collection elements to be searched </typeparam>
+        /// <typeparam name="T"> Type of collection elements to be calculated. Must implement IComparable </typeparam>
         /// <param name="collection"> Collection to be searched. Can be nested. </param>
         /// <param name="value">      Value of the individual element you want the frequency of </param>
         /// <param name="IsSorted">  
@@ -66,7 +65,7 @@ namespace FrequencyCalculator.IEnumerableExtensions
         /// <summary> 
         /// Calculates frequency of an individual item from collections. Uses recursion to flatten nested collections. 
         /// </summary> 
-        /// <typeparam name="T"> Primitive type of collection elements to be searched </typeparam> 
+        /// <typeparam name="T"> Type of collection elements to be calculated. Must implement IComparable </typeparam> 
         /// <param name="collection"> Collection to be searched. Can be nested. </param> 
         /// <param name="values"> Collection of values you want the frequency of </param> 
         /// <param name="IsSorted">
