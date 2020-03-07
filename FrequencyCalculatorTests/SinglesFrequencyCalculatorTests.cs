@@ -2,6 +2,7 @@ using FrequencyCalculator.DataModels;
 using FrequencyCalculator.IEnumerableExtensions;
 using FrequencyCalculator.Tests.TestData;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -9,6 +10,29 @@ namespace FrequencyCalculator.Tests
 {
     public class SinglesFrequencyCalculatorTests
     {
+        #region Theory
+
+        [Theory, MemberData(nameof(NestedSinglesTestData.SinglesCanCalculate_NestedData), MemberType = typeof(NestedSinglesTestData))]
+        public void ShouldCalculateWhenPassed_NestedListsOrArrays<T>(IEnumerable<IEnumerable<T>> nestedData) where T : IComparable
+        {
+            var actual = nestedData.CalculateSingles<T>();
+
+            Assert.Contains(actual, x => x.Frequency == 4);
+        }
+
+        [Theory]
+        [MemberData(nameof(NestedSinglesTestData.SinglesReturnEmpty_EmptyNestedData), MemberType = typeof(NestedSinglesTestData))]
+        public void ShouldReturnEmptyWhenPassed_EmptyListsOrArrays<T>(IEnumerable<IEnumerable<T>> emptyData) where T : IComparable
+        {
+            var actual = emptyData.CalculateSingles<T>();
+
+            Assert.Empty(actual);
+        }
+
+        #endregion Theory
+
+        #region Fact
+
         [Fact]
         public void ShouldCalculateInstantiatedWith_ListOfStringLists()
         {
@@ -87,12 +111,21 @@ namespace FrequencyCalculator.Tests
             Assert.Equal(expectedStr, actualStr);
         }
 
-        [Theory, MemberData(nameof(NestedSinglesTestData.SinglesCanCalculate_NestedData), MemberType = typeof(NestedSinglesTestData))]
-        public void ShouldCalculateWhenPassed_NestedListsOrArrays<T>(IEnumerable<IEnumerable<T>> nestedData)
+        [Fact]
+        public void ShouldCalculateWhenPassed_LinkedList()
         {
-            var actual = nestedData.CalculateSingles<T>();
+            var ll = new LinkedList<int>();
+            ll.AddLast(1);
+            ll.AddLast(1);
 
-            Assert.Contains(actual, x => x.Frequency == 4);
+            var expected = new List<Singles<int>> { new Singles<int> { Item = 1, Frequency = 2 } };
+
+            var actual = ll.CalculateSingles<int>();
+
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
         }
 
         [Fact]
@@ -163,15 +196,6 @@ namespace FrequencyCalculator.Tests
             Assert.Empty(actual);
         }
 
-        [Theory]
-        [MemberData(nameof(NestedSinglesTestData.SinglesReturnEmpty_EmptyNestedData), MemberType = typeof(NestedSinglesTestData))]
-        public void ShouldReturnEmptyWhenPassed_EmptyListsOrArrays<T>(IEnumerable<IEnumerable<T>> emptyData)
-        {
-            var actual = emptyData.CalculateSingles<T>();
-
-            Assert.Empty(actual);
-        }
-
         [Fact]
         public void ShouldReturnIEnumerableofSinglesWhenPassed_CollectionToCalculate()
         {
@@ -187,5 +211,7 @@ namespace FrequencyCalculator.Tests
 
             Assert.Equal(expectedStr, actualStr);
         }
+
+        #endregion Fact
     }
 }
