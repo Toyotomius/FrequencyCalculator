@@ -19,12 +19,17 @@ namespace FrequencyCalculator.IEnumerableExtensions
 
             var pairs = (from firstNum in distinct
                          from secondNum in distinct
-                         where firstNum.CompareTo(secondNum) < 0 && firstNum is object
+                         where firstNum.CompareTo(secondNum) < 0
                          select new
                          {
                              First = firstNum,
                              Second = secondNum
                          }).ToArray();
+
+            if(0 == pairs.Length)
+            {
+                throw new ArgumentException("Nested collection passed does not contain the at least two distinct elements to find pairs of");
+            }
 
             return (from n in nestedCollection
                     where n != null

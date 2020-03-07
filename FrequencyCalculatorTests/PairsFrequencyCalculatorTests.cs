@@ -1,6 +1,7 @@
 ﻿using FrequencyCalculator.DataModels;
 using FrequencyCalculator.IEnumerableExtensions;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -99,6 +100,7 @@ namespace FrequencyCalculator.Tests
 
             Assert.Equal(expectedStr, actualStr);
         }
+
         [Fact]
         public void ShouldReturnEmptyPairsWhenPassed_NullValueAsSpecifiedValue()
         {
@@ -117,5 +119,14 @@ namespace FrequencyCalculator.Tests
 
             Assert.Equal(expectedStr, actualStr);
         }
+        [Fact]
+        public void ShouldThrowArgumentExceptionWhenPassed_LessThanTwoDistinctElements()
+        {
+            var nestedList = new List<List<int>> { new List<int> { 1, 1 }, new List<int> { 1, 1 } };
+
+            Assert.Throws<ArgumentException>(() => nestedList.CalculatePairs());
+        }
+
+        //TODO: Tests for nested Linklists, queues, etc
     }
 }
