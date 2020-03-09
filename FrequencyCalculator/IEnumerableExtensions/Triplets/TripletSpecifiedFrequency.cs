@@ -7,13 +7,20 @@ namespace FrequencyCalculator.IEnumerableExtensions
 {
     public static class TripletSpecifiedFrequency
     {
+        /// <summary> Calculates frequency of distinct tripets in nested collection. </summary>
+        /// <typeparam name="T"> Type of base element in collections </typeparam>
+        /// <param name="nestedCollection"> Nested collection to calculate triplet frequency from </param>
+        /// <param name="triplet">         
+        /// Collection of distinct triplets to find the frequency of in the nested collection
+        /// </param>
+        /// <returns> List of triplets objects in descending order of frequency </returns>
         public static Triplets<T> CalculateTriplets<T>(this IEnumerable<IEnumerable<T>> nestedCollection, IList<T> triplet) where T : IComparable
         {
             var distinctTriplet = triplet.Distinct();
-            if(distinctTriplet.Count() != 3) { throw new ArgumentException($"{nameof(triplet)} does not contain exactly three distinct values"); }
-            foreach(var num in triplet)
+            if (distinctTriplet.Count() != 3) { throw new ArgumentException($"{nameof(triplet)} does not contain exactly three distinct values"); }
+            foreach (var num in triplet)
             {
-                if(num is null) { return new Triplets<T> { }; }
+                if (num is null) { return new Triplets<T> { }; }
             }
 
             return (from n in nestedCollection
