@@ -119,6 +119,21 @@ namespace FrequencyCalculator.Tests
 
             Assert.Equal(expectedStr, actualStr);
         }
+
+        [Fact]
+        public void ShouldThrowArgumentErrorWhenNotPassed_ThreeDistinctElementsToFind()
+        {
+            var nestedList = new List<List<string>>
+            {
+                new List<string> { "1","2" },
+                new List<string> { "1","2" }
+            };
+
+            var itemsToFind = new List<string> { "1" };
+
+            Assert.Throws<ArgumentException>(() => nestedList.CalculateTriplets(itemsToFind));
+        }
+
         [Fact]
         public void ShouldThrowArgumentExceptionWhenPassed_LessThanTwoDistinctElements()
         {
