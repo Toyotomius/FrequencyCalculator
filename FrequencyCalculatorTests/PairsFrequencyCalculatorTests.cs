@@ -7,10 +7,10 @@ using Xunit;
 
 namespace FrequencyCalculator.Tests
 {
-    public class PairsFrequencyCalculatorTests
+    public class PairsFrequencyCalculatorShould
     {
         [Fact]
-        public void ShouldCalculateWhenPassed_NestedIntList()
+        public void CalculateWhenPassed_NestedIntList()
         {
             var nestedInt = new List<List<int>>
             {
@@ -28,7 +28,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldCalculateWhenPassed_NestedStringList()
+        public void CalculateWhenPassed_NestedStringList()
         {
             var nestedInt = new List<List<string>>
             {
@@ -46,7 +46,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldCalculateWhenPassed_NullList()
+        public void CalculateWhenPassed_NullList()
         {
             var nestedInt = new List<List<string>>
             {
@@ -65,7 +65,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldCalculateWhenPassed_NullValues()
+        public void CalculateWhenPassed_NullValues()
         {
             var nestedInt = new List<List<string>>
             {
@@ -83,7 +83,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldReturnCountOf_SpecifiedValuesInCollection()
+        public void ReturnCountOf_SpecifiedValuesInCollection()
         {
             var nestedInt = new List<List<string>>
             {
@@ -102,7 +102,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldReturnEmptyPairsWhenPassed_NullValueAsSpecifiedValue()
+        public void ReturnEmptyPairsWhenPassed_NullValueAsSpecifiedValue()
         {
             var nestedInt = new List<List<string>>
             {
@@ -121,7 +121,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldThrowArgumentErrorWhenNotPassed_ThreeDistinctElementsToFind()
+        public void ThrowArgumentErrorWhenNotPassed_ThreeDistinctElementsToFind()
         {
             var nestedList = new List<List<string>>
             {
@@ -135,7 +135,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldThrowArgumentExceptionWhenPassed_LessThanTwoDistinctElements()
+        public void ThrowArgumentExceptionWhenPassed_LessThanTwoDistinctElements()
         {
             var nestedList = new List<List<int>> { new List<int> { 1, 1 }, new List<int> { 1, 1 } };
 

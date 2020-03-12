@@ -8,12 +8,12 @@ using Xunit;
 
 namespace FrequencyCalculator.Tests
 {
-    public class SinglesFrequencyCalculatorTests
+    public class SinglesFrequencyCalculatorShould
     {
         #region Theory
 
         [Theory, MemberData(nameof(NestedSinglesTestData.SinglesCanCalculate_NestedData), MemberType = typeof(NestedSinglesTestData))]
-        public void ShouldCalculateWhenPassed_NestedListsOrArrays<T>(IEnumerable<IEnumerable<T>> nestedData) where T : IComparable
+        public void CalculateWhenPassed_NestedListsOrArrays<T>(IEnumerable<IEnumerable<T>> nestedData) where T : IComparable
         {
             var actual = nestedData.CalculateSingles<T>();
 
@@ -22,7 +22,7 @@ namespace FrequencyCalculator.Tests
 
         [Theory]
         [MemberData(nameof(NestedSinglesTestData.SinglesReturnEmpty_EmptyNestedData), MemberType = typeof(NestedSinglesTestData))]
-        public void ShouldReturnEmptyWhenPassed_EmptyListsOrArrays<T>(IEnumerable<IEnumerable<T>> emptyData) where T : IComparable
+        public void ReturnEmptyWhenPassed_EmptyListsOrArrays<T>(IEnumerable<IEnumerable<T>> emptyData) where T : IComparable
         {
             var actual = emptyData.CalculateSingles<T>();
 
@@ -34,7 +34,7 @@ namespace FrequencyCalculator.Tests
         #region Fact
 
         [Fact]
-        public void ShouldCalculateInstantiatedWith_ListOfStringLists()
+        public void CalculateInstantiatedWith_ListOfStringLists()
         {
             var nestedStringList = new List<List<string>>() {
                                                                 new List<string> {"0", "0" },
@@ -52,7 +52,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldCalculateWhenInstatiatedWith_ListOfIntLists()
+        public void CalculateWhenInstatiatedWith_ListOfIntLists()
         {
             var nestedIntList = new List<List<int>>() {
                                                             new List<int> { 0, 0 },
@@ -70,7 +70,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldCalculateWhenPassed_FlatIntArray()
+        public void CalculateWhenPassed_FlatIntArray()
         {
             var intArray = new int[] { 0, 0 };
             var expected = new List<Singles<int>> { new Singles<int> { Item = 0, Frequency = 2 } };
@@ -84,7 +84,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldCalculateWhenPassed_FlatIntList()
+        public void CalculateWhenPassed_FlatIntList()
         {
             var intList = new List<int>() { 0, 0 };
             var expected = new List<Singles<int>> { new Singles<int> { Item = 0, Frequency = 2 } };
@@ -98,7 +98,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldCalculateWhenPassed_FlatStringList()
+        public void CalculateWhenPassed_FlatStringList()
         {
             var stringList = new List<string> { "0", "0" };
             var expected = new List<Singles<string>> { new Singles<string> { Item = "0", Frequency = 2 } };
@@ -112,7 +112,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldCalculateWhenPassed_LinkedList()
+        public void CalculateWhenPassed_LinkedList()
         {
             var ll = new LinkedList<int>();
             ll.AddLast(1);
@@ -129,7 +129,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldIgnoreNulls_NestedListWithNullLists()
+        public void IgnoreNulls_NestedListWithNullLists()
         {
             var nullList = new List<List<int>> { null, new List<int> { 1, 1 } };
             var expected = new List<Singles<int>> { new Singles<int> { Item = 1, Frequency = 2 } };
@@ -143,7 +143,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldIgnoreNulls_StringListWithNullValues()
+        public void IgnoreNulls_StringListWithNullValues()
         {
             var nullString = new List<string> { null, "1", "1" };
             var expected = new List<Singles<string>> { new Singles<string> { Item = "1", Frequency = 2 } };
@@ -157,7 +157,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldReturnCountOf_SpecifiedValueInSortedCollection()
+        public void ReturnCountOf_SpecifiedValueInSortedCollection()
         {
             var valuePassed = "1";
             var stringList = new List<string> { "1", "1", "2", "3" };
@@ -172,7 +172,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldReturnCountOf_SpecifiedValueInUnSortedCollection()
+        public void ReturnCountOf_SpecifiedValueInUnSortedCollection()
         {
             var valuePassed = "1";
             var stringList = new List<string> { "1", "3", "2", "1" };
@@ -187,7 +187,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldReturnEmpty_NullLists()
+        public void ReturnEmpty_NullLists()
         {
             var nullString = new List<string> { null };
 
@@ -197,7 +197,7 @@ namespace FrequencyCalculator.Tests
         }
 
         [Fact]
-        public void ShouldReturnIEnumerableofSinglesWhenPassed_CollectionToCalculate()
+        public void ReturnIEnumerableofSinglesWhenPassed_CollectionToCalculate()
         {
             var valuesPassed = new List<string> { "1", "2" };
             var stringList = new List<string> { "1", "3", "2", "1" };
