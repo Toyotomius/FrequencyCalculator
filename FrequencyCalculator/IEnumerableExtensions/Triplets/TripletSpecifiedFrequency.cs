@@ -16,7 +16,7 @@ namespace FrequencyCalculator.IEnumerableExtensions
         /// <returns> List of triplets objects in descending order of frequency </returns>
         public static Triplets<T> CalculateTriplets<T>(this IEnumerable<IEnumerable<T>> nestedCollection, IList<T> triplet) where T : IComparable
         {
-            var distinctTriplet = triplet.Distinct();
+            var distinctTriplet = triplet.Distinct().Where(x => x != null);
             if (distinctTriplet.Count() != 3) { throw new ArgumentException($"{nameof(triplet)} does not contain exactly three distinct values"); }
             foreach (var num in triplet)
             {
@@ -25,9 +25,8 @@ namespace FrequencyCalculator.IEnumerableExtensions
 
             return (from n in nestedCollection
                     where n != null
-                    from t in triplet
                     where n.Contains(triplet[0]) && n.Contains(triplet[1]) && n.Contains(triplet[2])
-                    group n by t into g
+                    group n by triplet into g
                     orderby g.Count() descending
                     select new Triplets<T>
                     {
