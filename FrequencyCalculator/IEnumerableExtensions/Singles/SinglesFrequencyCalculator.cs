@@ -12,11 +12,12 @@ namespace FrequencyCalculator.IEnumerableExtensions
     {
         /// <summary>
         /// Calculates frequency of individual items from collections. Uses recursion to flatten nested collections.
+        /// For custom types ensure you override GetHashCode when implementing IEquatable for correct grouping.
         /// </summary>
         /// <typeparam name="T"> Type of collection elements to be calculated. Must implement IComparable </typeparam>
         /// <param name="collection"> </param>
         /// <returns> A List of Singles objects that each contain an element and its frequency </returns>
-        public static List<Singles<T>> CalculateSingles<T>(this IEnumerable collection) where T : IComparable
+        public static List<Singles<T>> CalculateSingles<T>(this IEnumerable collection) where T : IComparable<T>, IEquatable<T>
         {
             var flattened = collection.Flatten<T>();
 
@@ -30,5 +31,6 @@ namespace FrequencyCalculator.IEnumerableExtensions
                          }).ToList();
             return query;
         }
+        
     }
 }

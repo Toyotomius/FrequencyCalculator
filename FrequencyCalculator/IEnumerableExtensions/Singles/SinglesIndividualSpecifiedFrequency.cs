@@ -18,7 +18,7 @@ namespace FrequencyCalculator.IEnumerableExtensions
         /// True: Binary search for flat sorted collections (much faster)
         /// </param>
         /// <returns> New Singles object with the value and number of occurrences </returns>
-        public static Singles<T> CalculateSingles<T>(this IList<T> collection, T value, bool IsSorted) where T : IComparable
+        public static Singles<T> CalculateSingles<T>(this IList<T> collection, T value, bool IsSorted) where T : IComparable<T>, IEquatable<T>
         {
             if (IsSorted) { return SinglesSorted.CalculateSinglesSorted(collection, value); }
 

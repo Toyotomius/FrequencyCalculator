@@ -14,7 +14,7 @@ namespace FrequencyCalculator.Helpers
         /// <param name="collection"> Flat sorted collection passed </param>
         /// <param name="value">      Value to find the frequency of </param>
         /// <returns> New Singles object with the value and number of occurrences </returns>
-        internal static Singles<T> CalculateSinglesSorted<T>(IList<T> collection, T value) where T : IComparable
+        internal static Singles<T> CalculateSinglesSorted<T>(IList<T> collection, T value) where T : IComparable<T>, IEquatable<T>
         {
             var length = collection.Count;
             int index = BinarySearch(collection, 0, length - 1, value);
@@ -57,7 +57,7 @@ namespace FrequencyCalculator.Helpers
         /// Returns the index once the value is found in the collection. Otherwise recurses to find
         /// the value
         /// </returns>
-        private static int BinarySearch<T>(IList<T> collection, int left, int right, T value) where T : IComparable
+        private static int BinarySearch<T>(IList<T> collection, int left, int right, T value) where T : IComparable<T>, IEquatable<T>
         {
             // Return -1 when the right most bound passes the left when the value is not found
             if (right < left)

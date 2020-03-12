@@ -13,7 +13,7 @@ namespace FrequencyCalculator.Tests
         #region Theory
 
         [Theory, MemberData(nameof(NestedSinglesTestData.SinglesCanCalculate_NestedData), MemberType = typeof(NestedSinglesTestData))]
-        public void CalculateWhenPassed_NestedListsOrArrays<T>(IEnumerable<IEnumerable<T>> nestedData) where T : IComparable
+        public void CalculateWhenPassed_NestedListsOrArrays<T>(IEnumerable<IEnumerable<T>> nestedData) where T : IComparable<T>, IEquatable<T>
         {
             var actual = nestedData.CalculateSingles<T>();
 
@@ -22,7 +22,7 @@ namespace FrequencyCalculator.Tests
 
         [Theory]
         [MemberData(nameof(NestedSinglesTestData.SinglesReturnEmpty_EmptyNestedData), MemberType = typeof(NestedSinglesTestData))]
-        public void ReturnEmptyWhenPassed_EmptyListsOrArrays<T>(IEnumerable<IEnumerable<T>> emptyData) where T : IComparable
+        public void ReturnEmptyWhenPassed_EmptyListsOrArrays<T>(IEnumerable<IEnumerable<T>> emptyData) where T : IComparable<T>, IEquatable<T>
         {
             var actual = emptyData.CalculateSingles<T>();
 
@@ -32,6 +32,94 @@ namespace FrequencyCalculator.Tests
         #endregion Theory
 
         #region Fact
+
+        [Fact]
+        public void CalculateCustomCollectionWhenPassed_NullCustomTypeValue()
+        {
+            var valuesPassed = new List<TestSingle>
+            {
+                new TestSingle { First = 3, Second = 4 },
+                new TestSingle { First = 1, Second = null },
+                new TestSingle { First = 1, Second = null }
+            };
+
+            var expected = new List<Singles<TestSingle>>
+            {
+                new Singles<TestSingle> { Item = new TestSingle { First = 1, Second = null }, Frequency = 2 },
+                new Singles<TestSingle> { Item = new TestSingle { First = 3, Second = 4 }, Frequency = 1 }
+            };
+
+            var actual = valuesPassed.CalculateSingles<TestSingle>();
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
+        }
+
+        [Fact]
+        public void CalculateCustomCollectionWhenPassed_NullListElement()
+        {
+            var valuesPassed = new List<TestSingle>
+            {
+                new TestSingle { First = 1, Second = 2 },
+                new TestSingle { First = 1, Second = 2 },
+                new TestSingle { First = 1, Second = 1 },
+                null
+            };
+            var expected = new List<Singles<TestSingle>>
+            {
+                new Singles<TestSingle> { Item = new TestSingle { First = 1, Second = 2 }, Frequency = 2 },
+                new Singles<TestSingle> { Item = new TestSingle { First = 1, Second = 1 }, Frequency = 1 }
+            };
+
+            var actual = valuesPassed.CalculateSingles<TestSingle>();
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
+        }
+
+        [Fact]
+        public void CalculateCustomSortedCollectionWhenPassed_SpecificValueToFind()
+        {
+            var valuesPassed = new List<TestSingle>
+            {
+                new TestSingle { First = 1, Second = 2 },
+                new TestSingle { First = 1, Second = 2 },
+                new TestSingle { First = 3, Second = 4 },
+                new TestSingle { First = 5, Second = 6 }
+            };
+            var valueToFind = new TestSingle { First = 1, Second = 2 };
+
+            var expected = new Singles<TestSingle> { Item = new TestSingle { First = 1, Second = 2 }, Frequency = 2 };
+
+            var actual = valuesPassed.CalculateSingles(valueToFind, true);
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
+        }
+
+        [Fact]
+        public void CalculateCustomUnsortedCollectionWhenPassed_SpecificValueToFind()
+        {
+            var valuesPassed = new List<TestSingle>
+            {
+                new TestSingle { First = 3, Second = 4 },
+                new TestSingle { First = 1, Second = 2 },
+                new TestSingle { First = 5, Second = 6 },
+                new TestSingle { First = 1, Second = 2 }
+            };
+            var valueToFind = new TestSingle { First = 1, Second = 2 };
+
+            var expected = new Singles<TestSingle> { Item = new TestSingle { First = 1, Second = 2 }, Frequency = 2 };
+
+            var actual = valuesPassed.CalculateSingles(valueToFind, false);
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
+        }
 
         [Fact]
         public void CalculateInstantiatedWith_ListOfStringLists()
@@ -63,6 +151,28 @@ namespace FrequencyCalculator.Tests
 
             var actual = nestedIntList.CalculateSingles<int>();
 
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
+        }
+
+        [Fact]
+        public void CalculateWhenPassed_CollectionOfCustomTypes()
+        {
+            var valuesPassed = new List<TestSingle>
+            {
+                new TestSingle { First = 1, Second = 2 },
+                new TestSingle { First = 1, Second = 2 },
+                new TestSingle { First = 1, Second = 1 }
+            };
+            var expected = new List<Singles<TestSingle>>
+            {
+                new Singles<TestSingle> { Item = new TestSingle { First = 1, Second = 2 }, Frequency = 2 },
+                new Singles<TestSingle> { Item = new TestSingle { First = 1, Second = 1 }, Frequency = 1 }
+            };
+
+            var actual = valuesPassed.CalculateSingles<TestSingle>();
             var actualStr = JsonConvert.SerializeObject(actual);
             var expectedStr = JsonConvert.SerializeObject(expected);
 
@@ -213,5 +323,30 @@ namespace FrequencyCalculator.Tests
         }
 
         #endregion Fact
+
+        public class TestSingle : IComparable<TestSingle>, IEquatable<TestSingle>
+        {
+            public int First { get; set; }
+
+            public int? Second { get; set; }
+
+            public int CompareTo(TestSingle other)
+            {
+                return this.First.CompareTo(other.First);
+            }
+
+            public bool Equals(TestSingle other)
+            {
+                return this.First.Equals(other.First) && this.Second.Equals(other.Second);
+            }
+
+            public override int GetHashCode()
+            {
+                int hash = 17;
+                hash = hash * 23 + First.GetHashCode();
+                hash = hash * 23 + Second.GetHashCode();
+                return hash;
+            }
+        }
     }
 }

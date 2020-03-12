@@ -18,7 +18,7 @@ namespace FrequencyCalculator.IEnumerableExtensions
         /// </param> 
         /// <returns> IEnumerable of Singles<T> object with the value and number of occurrences</returns>
         public static IEnumerable<Singles<T>> CalculateSingles<T>(this IList<T> collection, IList<T> values,
-                                                                  bool IsSorted) where T : IComparable
+                                                                  bool IsSorted) where T : IComparable<T>, IEquatable<T>
         {
             foreach (var value in values)
             {
