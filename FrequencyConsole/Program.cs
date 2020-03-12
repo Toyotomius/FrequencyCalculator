@@ -1,9 +1,8 @@
-﻿using FrequencyCalculator.IEnumerableExtensions;
-using Newtonsoft.Json;
+﻿using FrequencyCalculator;
+using FrequencyCalculator.IEnumerableExtensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 
 namespace FrequencyConsole
 {
@@ -32,22 +31,18 @@ namespace FrequencyConsole
             //Console.WriteLine(watch.ElapsedMilliseconds);
 
             var list = new List<List<string>> { new List<string> { "1", "2"},
-                                                new List<string> {"1", "2"} };
+                                                new List<string> {"1", null} };
 
-            var test = new List<string> { "1", null };
+            var test = list.Flatten<string>();
 
-            var results = list.CalculateTriplets();
+            
 
-            foreach(var itm in results)
+            foreach (var itm in test)
             {
-                Console.WriteLine(itm.Item3);
-                Console.WriteLine(itm.Frequency);
+                Console.WriteLine(itm);
             }
 
-
             Console.WriteLine("Breakpoint");
-
-
 
             //TODO: Set up check for binary search and nested collections.
         }
