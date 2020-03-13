@@ -261,7 +261,48 @@ namespace FrequencyCalculator.Tests
             Action act = () => { var result = nestedList.CalculateTriplets(itemsToFind); foreach (var itm in result) { } };
             Assert.Throws<ArgumentException>(act);
         }
+        [Fact]
+        public void CalculateFrequencyOfSpecifiedItemsWhen_IsSortedIsTrue()
+        {
+            var nestedList = new List<List<string>>
+            {
+                new List<string> { "1", "2", "3" },
+                new List<string> { "1", "2", "3" }
+            };
+            var itemsToFind = new List<string> { "1", "2", "3" };
+            var expected = new Triplets<string> { Item = "1", Item2 = "2", Item3 = "3", Frequency = 2 };
 
+            var actual = nestedList.CalculateTriplets(itemsToFind, true);
+
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
+        }
+        [Fact]
+        public void CalculateFrequencyOfGroupOfSpecifiedItemsWhen_IsSortedIsTrue()
+        {
+            var nestedList = new List<List<string>>
+            {
+                new List<string> { "1", "2", "3" },
+                new List<string> { "1", "2", "3" },
+                new List<string> { "1", "2", "4" },
+                new List<string> { "1", "2", "4" }
+            };
+            var itemsToFind = new List<List<string>> { new List<string> { "1", "2", "3" }, new List<string> { "1", "2", "4" } };
+            var expected = new List<Triplets<string>> 
+            {
+               new Triplets<string> { Item = "1", Item2 = "2", Item3 = "3", Frequency = 2 },
+               new Triplets<string> { Item = "1", Item2 = "2", Item3 = "4", Frequency = 2 }
+            };
+
+            var actual = nestedList.CalculateTriplets(itemsToFind, true);
+
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
+        }
         #endregion FindingSpecificValues
 
         [Fact]

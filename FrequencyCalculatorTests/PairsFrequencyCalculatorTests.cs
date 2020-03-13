@@ -155,7 +155,7 @@ namespace FrequencyCalculator.Tests
             var valueToFind = new List<TestClass> {
                 new TestClass { First = 1, Second = 2 }
             };
-            Assert.Throws<ArgumentException>(() => valuesPassed.CalculatePairs(valueToFind));
+            Assert.Throws<ArgumentException>(() => valuesPassed.CalculatePairs(valueToFind, false));
         }
 
         #endregion CustomType
@@ -215,7 +215,7 @@ namespace FrequencyCalculator.Tests
             var itemsToFind = new List<string> { "1", "2" };
             var expected = new Pairs<string> { Item = "1", Item2 = "2", Frequency = 2 };
 
-            var actual = valuesPassed.CalculatePairs(itemsToFind);
+            var actual = valuesPassed.CalculatePairs(itemsToFind, false);
 
             var actualStr = JsonConvert.SerializeObject(actual);
             var expectedStr = JsonConvert.SerializeObject(expected);
@@ -234,7 +234,7 @@ namespace FrequencyCalculator.Tests
 
             var itemsToFind = new List<string> { "1" };
 
-            Assert.Throws<ArgumentException>(() => valuesPassed.CalculatePairs(itemsToFind));
+            Assert.Throws<ArgumentException>(() => valuesPassed.CalculatePairs(itemsToFind, false));
         }
 
         [Fact]
@@ -247,19 +247,51 @@ namespace FrequencyCalculator.Tests
             };
             var itemsToFind = new List<string> { "1", null };
 
-            Assert.Throws<ArgumentException>(() => valuesPassed.CalculatePairs(itemsToFind));
+            Assert.Throws<ArgumentException>(() => valuesPassed.CalculatePairs(itemsToFind, false));
         }
 
         [Fact]
         public void ThrowArgumentExceptionWhen_SubCollectionOfSpecificGroupHasNull()
         {
             var valuesPassed = new List<List<string>> { new List<string> { "1", "2", "3" }, new List<string> { "1", "2", "3" },
-                                                   new List<string> { "1", "2", "3" }, new List<string> { "3", "4", "5" } };
+                                                        new List<string> { "1", "2", "3" }, new List<string> { "3", "4", "5" } };
             var itemsToFind = new List<List<string>> { new List<string> { "1", "2", "3" }, new List<string> { "3", "4", null } };
 
             // Due to deferred execution, have to run the foreach to force the exception.
             Action act = () => { var result = valuesPassed.CalculatePairs(itemsToFind); foreach (var itm in result) { } };
             Assert.Throws<ArgumentException>(act);
+        }
+        [Fact]
+        public void CalculateWhenIsSortedEqualsTruePassed()
+        {
+            var valuesPassed = new List<List<string>> { new List<string> { "1", "2", "3" }, new List<string> { "1", "2", "4" },
+                                                        new List<string> { "1", "2", "3" }, new List<string> { "3", "4", "5" } };
+            var itemsToFind = new List<string> { "1", "3" };
+
+            var expected = new Pairs<string> { Item = "1", Item2 = "3", Frequency = 2 };
+
+            var actual = valuesPassed.CalculatePairs(itemsToFind, true);
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
+        }
+        [Fact]
+        public void CalculateWhenIsSortedEqualsTrueWhenPassed_GroupOfSpecificPairs()
+        {
+            var valuesPassed = new List<List<string>> { new List<string> { "1", "2", "3" }, new List<string> { "1", "2", "4" },
+                                                        new List<string> { "1", "2", "3" }, new List<string> { "2", "4", "5" } };
+
+            var itemsToFind = new List<List<string>> { new List<string> { "1", "3" }, new List<string> { "2", "4" } };
+
+            var expected = new List<Pairs<string>> { new Pairs<string> {Item = "1", Item2 = "3", Frequency = 2 },
+                                                     new Pairs<string> {Item = "2", Item2 = "4", Frequency = 2 } };
+
+            var actual = valuesPassed.CalculatePairs(itemsToFind, true);
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
         }
 
         #endregion FindingSpecificValues
