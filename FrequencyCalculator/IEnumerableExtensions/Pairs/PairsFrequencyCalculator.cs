@@ -11,7 +11,7 @@ namespace FrequencyCalculator.IEnumerableExtensions
         /// <typeparam name="T"> Type of the base element that must implement IComparable </typeparam>
         /// <param name="nestedCollection"> </param>
         /// <returns> List of Pairs object sorted in descending order of frequency </returns>
-        public static List<Pairs<T>> CalculatePairs<T>(this IEnumerable<IEnumerable<T>> nestedCollection) where T : IComparable
+        public static List<Pairs<T>> CalculatePairs<T>(this IEnumerable<IEnumerable<T>> nestedCollection) where T : IComparable<T>, IEquatable<T>
         {
             var distinct = nestedCollection.Where(x => x is object).SelectMany(x => x).Where(x => x is object).Distinct().ToArray();
 
