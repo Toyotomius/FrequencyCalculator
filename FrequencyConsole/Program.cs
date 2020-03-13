@@ -35,74 +35,44 @@ namespace FrequencyConsole
 
             //Console.WriteLine(watch.ElapsedMilliseconds);
 
-            var testSingleList = new List<TestSingle> { new TestSingle { First = 1, Second = 2 },
-                                                        new TestSingle { First = 2, Second = 4 }, 
-                                                        new TestSingle { First = 1, Second = 2 },
-                                                        new TestSingle { First = 1, Second = 2 },
-                                                        new TestSingle { First = 1, Second = 3 },
-                                                        new TestSingle { First = 2, Second = 4 }, };
+            var valuesPassed = new List<List<TestClass>>
+            {
+                new List<TestClass>{ new TestClass { First = 1, Second = 2 }, new TestClass { First = 3, Second = 4 }, new TestClass { First = 5, Second = 6 }  },
+                new List<TestClass>{ new TestClass { First = 1, Second = 2 }, new TestClass { First = 3, Second = 4 }, new TestClass { First = 5, Second = 6 }  },
+                new List<TestClass>{ new TestClass { First = 3, Second = 4 }, new TestClass { First = 2, Second = 3 }, new TestClass { First = 2, Second = 4 }  },
 
-            //var results = testSingleList.CalculateSingles<TestSingle>();
+            };
+            var valueToFind = new List<List<TestClass>> {
+                new List<TestClass> { new TestClass { First = 1, Second = 2 }, new TestClass { First = 3, Second = 4  } }
+            };
+            var group = valuesPassed.CalculateTriplets(valueToFind);
 
-            //foreach(var itm in results)
-            //{
-            //    Console.WriteLine($"{itm.Item.First} :: {itm.Frequency}"
-            //        );
-            //}
-            //Expression<Func<object>> fn = () => (from item in testSingleList.GroupBy(x => x, new TestSingle.TestSingleComparer())
+            foreach (var itm in group)
+            {
+                Console.WriteLine($"{itm.Item.First} :: {itm.Item.Second} /// {itm.Item2.First} -- {itm.Item2.Second} :::: {itm.Frequency}");
+            }
 
-
-            //                                     orderby item.Count() descending
-            //                                     select new Singles<TestSingle>
-            //                                     {
-            //                                         Item = item.Key,
-            //                                         Frequency = item.Count()
-            //                                     });
-
-
-            //var group = (from item in testSingleList.GroupBy(x => x, new TestSingle.TestSingleComparer())
-
-
-
-            //                                     orderby item.Count() descending
-            //                                     select new Singles<TestSingle>
-            //                                     {
-            //                                         Item = item.Key,
-            //                                         Frequency = item.Count()
-            //                                     });
-
-
-            testSingleList.Sort();
-            var toFind = new TestSingle { First = 1, Second = 2 };
-            var group = testSingleList.CalculateSingles(toFind, true);
-
-            
-            
-                Console.WriteLine($"{ group.Item.First} :: {group.Item.Second} :: {group.Frequency}" );
-
-            
 
             //TODO: Set up check for binary search and nested collections.
             //TODO: Set up binary search for pairs & triplets.
         }
 
-        public class TestSingle : IComparable<TestSingle>, IEquatable<TestSingle>
+        public class TestClass : IComparable<TestClass>, IEquatable<TestClass>
         {
             public int First { get; set; }
+
             public int? Second { get; set; }
 
-            public int CompareTo(TestSingle other)
+            public int CompareTo(TestClass other)
             {
                 return this.First.CompareTo(other.First);
             }
-            
 
-            public bool Equals([AllowNull] TestSingle other)
+            public bool Equals(TestClass other)
             {
                 return this.First.Equals(other.First) && this.Second.Equals(other.Second);
             }
 
-            
             public override int GetHashCode()
             {
                 int hash = 17;
@@ -110,9 +80,6 @@ namespace FrequencyConsole
                 hash = hash * 23 + Second.GetHashCode();
                 return hash;
             }
-
-
-
         }
     }
 }
