@@ -83,6 +83,7 @@ namespace FrequencyConsole
             
 
             //TODO: Set up check for binary search and nested collections.
+            //TODO: Set up binary search for pairs & triplets.
         }
 
         public class TestSingle : IComparable<TestSingle>, IEquatable<TestSingle>
