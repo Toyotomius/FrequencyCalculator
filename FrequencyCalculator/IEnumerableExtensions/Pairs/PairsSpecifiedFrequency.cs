@@ -16,14 +16,12 @@ namespace FrequencyCalculator.IEnumerableExtensions
         /// <param name="pair">Pair of elements to find the frequency of in the nested collection</param>
         /// <returns>Empty if either pair element is null. Else returns a single Pair<T> object containing the pair
         /// searched and its frequency</returns>
-        public static Pairs<T> CalculatePairs<T>(this IEnumerable<IEnumerable<T>> nestedCollection, IList<T> pair) where T : IComparable<T>, IEquatable<T>
+        public static Pairs<T> CalculatePairs<T>(this IEnumerable<IEnumerable<T>> nestedCollection,
+                                                 IList<T> pair) where T : IComparable<T>, IEquatable<T>
         {
-            var distinctPair = pair.Distinct();
+            var distinctPair = pair.Distinct().Where(x => x != null);
             if (distinctPair.Count() != 2) { throw new ArgumentException($"{nameof(pair)} does not contain exactly two distinct elements"); }
-            if (pair[0] is null || pair[1] is null)
-            {
-                return new Pairs<T> { };
-            }
+            
 
             return (from n in nestedCollection
                     where n != null

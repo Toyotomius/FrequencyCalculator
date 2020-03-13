@@ -8,7 +8,7 @@ namespace FrequencyCalculator.IEnumerableExtensions
     public static class TripletGroupSpecifiedFrequency
     {
         /// <summary> 
-        /// Calculates frequency of a group of distinct tripets in nested collection.
+        /// Calculates frequency of a group of distinct tripets in nested collection using deferred execution.
         /// For custom types ensure you override GetHashCode when implementing IEquatable for correct grouping.
         /// </summary>
         /// <typeparam name="T"> Type of base element in collections </typeparam>
