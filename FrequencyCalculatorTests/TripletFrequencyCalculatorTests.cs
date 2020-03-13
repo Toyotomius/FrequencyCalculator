@@ -149,7 +149,7 @@ namespace FrequencyCalculator.Tests
                 new Triplets<int> { Item = 3, Item2 = 4, Item3 = 5, Frequency = 1 }
             };
 
-            var actual = nestedList.CalculateTriplets<int>(itemsToFind);
+            var actual = nestedList.CalculateTriplets(itemsToFind);
 
             var actualStr = JsonConvert.SerializeObject(actual);
             var expectedStr = JsonConvert.SerializeObject(expected);
@@ -169,7 +169,7 @@ namespace FrequencyCalculator.Tests
                 new Triplets<int> { Item = 3, Item2 = 4, Item3 = 5, Frequency = 1 }
             };
 
-            var actual = nestedList.CalculateTriplets<int>(itemsToFind);
+            var actual = nestedList.CalculateTriplets(itemsToFind);
 
             var actualStr = JsonConvert.SerializeObject(actual);
             var expectedStr = JsonConvert.SerializeObject(expected);

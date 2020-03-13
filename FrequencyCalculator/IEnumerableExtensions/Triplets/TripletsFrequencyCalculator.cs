@@ -11,7 +11,7 @@ namespace FrequencyCalculator.IEnumerableExtensions
         /// <typeparam name="T"> Type of base element in collections </typeparam>
         /// <param name="nestedCollection"> Nested collection to calculate triplet frequency from </param>
         /// <returns> List of triplets objects in descending order of frequency </returns>
-        public static List<Triplets<T>> CalculateTriplets<T>(this IEnumerable<IEnumerable<T>> nestedCollection) where T : IComparable
+        public static List<Triplets<T>> CalculateTriplets<T>(this IEnumerable<IEnumerable<T>> nestedCollection) where T : IComparable<T>, IEquatable<T>
         {
             var distinct = nestedCollection.Where(x => x is object).SelectMany(x => x).Where(x => x is object).Distinct().ToArray();
 

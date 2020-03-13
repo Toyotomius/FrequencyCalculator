@@ -19,7 +19,7 @@ namespace FrequencyCalculator.IEnumerableExtensions
         /// Thrown when a sub collection does not contain exactly three distinct values. Includes nulls in sub collection.
         /// </exception>
         public static IEnumerable<Triplets<T>> CalculateTriplets<T>(this IEnumerable<IEnumerable<T>> nestedCollection,
-                                                                    IEnumerable<IList<T>> tripletGroup) where T : IComparable
+                                                                    IEnumerable<IList<T>> tripletGroup) where T : IComparable<T>, IEquatable<T>
         {
             var index = 0;
             foreach (var triplet in tripletGroup)
