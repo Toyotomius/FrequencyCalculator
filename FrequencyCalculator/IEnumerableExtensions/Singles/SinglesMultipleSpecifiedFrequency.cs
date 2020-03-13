@@ -7,7 +7,7 @@ namespace FrequencyCalculator.IEnumerableExtensions
     public static class SinglesMultipleSpecifiedFrequency
     {
         /// <summary> 
-        /// Calculates frequency of an individual item from collections. Will use binary search algorithm if IsSorted is 
+        /// Calculates frequency of a distinct individual item from collections. Will use binary search algorithm if IsSorted is 
         /// true. For custom types ensure you override GetHashCode when implementing IEquatable for correct grouping.
         /// </summary>
         /// <typeparam name="T"> Type of collection elements to be calculated. Must implement IComparable </typeparam> 
@@ -28,7 +28,7 @@ namespace FrequencyCalculator.IEnumerableExtensions
             }
         }
         /// <summary>
-        /// Calculates frequency of an individual item from collections. Uses recursion to flatten nested collections.
+        /// Calculates frequency of a distinct individual item from collections. Uses recursion to flatten nested collections.
         /// For custom types ensure you override GetHashCode when implementing IEquatable for correct grouping.
         /// </summary>
         /// <typeparam name="T">

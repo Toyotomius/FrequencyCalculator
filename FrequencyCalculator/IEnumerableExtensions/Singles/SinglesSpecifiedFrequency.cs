@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 namespace FrequencyCalculator.IEnumerableExtensions
 {
-    public static class SinglesIndividualSpecifiedFrequency
+    public static class SinglesSpecifiedFrequency
     {
         /// <summary>
-        /// Calculates frequency of an individual item from collections. Will use binary search algorithm if IsSorted is
+        /// Calculates frequency of a distinct individual item from collections. Will use binary search algorithm if IsSorted is
         /// true. For custom types ensure you override GetHashCode when implementing IEquatable for correct grouping.
         /// </summary>
         /// <typeparam name="T">
@@ -25,24 +25,12 @@ namespace FrequencyCalculator.IEnumerableExtensions
         public static Singles<T> CalculateSingles<T>(this IList<T> collection, T value,
                                                      bool IsSorted = false) where T : IComparable<T>, IEquatable<T>
         {
-            if (IsSorted)
-            { return SinglesSorted.CalculateSinglesSorted(collection, value); }
-
-            var count = 0;
-
-            foreach (var itm in collection)
-            {
-                if (itm.Equals(value))
-                {
-                    count++;
-                }
-            }
-
-            return new Singles<T> { Item = value, Frequency = count };
+            if (IsSorted) { return SpecificSingleSorted.CalculateSinglesSorted(collection, value); }
+            else { return SpecificSingleUnSorted.CalculateSinglesUnSorted(collection, value); }
         }
 
         /// <summary>
-        /// Calculates frequency of an individual item from collections. Uses recursion to flatten nested collections.
+        /// Calculates frequency of a distinct individual item from collections. Uses recursion to flatten nested collections.
         /// For custom types ensure you override GetHashCode when implementing IEquatable for correct grouping.
         /// </summary>
         /// <typeparam name="T">
