@@ -7,7 +7,10 @@ namespace FrequencyCalculator.IEnumerableExtensions
 {
     public static class PairsSpecifiedFrequency
     {
-        /// <summary> Calculates frequency of a specified distinct pair of elements. </summary>
+        /// <summary>
+        /// Calculates frequency of distinct tripets in nested collection. For custom types ensure you override
+        /// GetHashCode when implementing IEquatable for correct grouping.
+        /// </summary>
         /// <typeparam name="T">Type of base element</typeparam>
         /// <param name="nestedCollection">Collection that contains the pair interested in</param>
         /// <param name="pair">Pair of elements to find the frequency of in the nested collection</param>

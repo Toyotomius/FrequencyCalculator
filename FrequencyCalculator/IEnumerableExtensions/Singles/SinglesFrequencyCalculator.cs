@@ -11,8 +11,8 @@ namespace FrequencyCalculator.IEnumerableExtensions
     public static class CalculateIndividualFrequency
     {
         /// <summary>
-        /// Calculates frequency of individual items from collections. Uses recursion to flatten nested collections.
-        /// For custom types ensure you override GetHashCode when implementing IEquatable for correct grouping.
+        /// Calculates frequency of individual items from collections. Uses recursion to flatten nested collections. For
+        /// custom types ensure you override GetHashCode when implementing IEquatable for correct grouping.
         /// </summary>
         /// <typeparam name="T"> Type of collection elements to be calculated. Must implement IComparable </typeparam>
         /// <param name="collection"> </param>
@@ -31,6 +31,5 @@ namespace FrequencyCalculator.IEnumerableExtensions
                          }).ToList();
             return query;
         }
-        
     }
 }

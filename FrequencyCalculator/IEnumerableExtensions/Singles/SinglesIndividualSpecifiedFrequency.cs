@@ -9,6 +9,7 @@ namespace FrequencyCalculator.IEnumerableExtensions
     {
         /// <summary>
         /// Calculates frequency of an individual item from collections. Uses recursion to flatten nested collections.
+        /// For custom types ensure you override GetHashCode when implementing IEquatable for correct grouping.
         /// </summary>
         /// <typeparam name="T"> Type of collection elements to be calculated. Must implement IComparable </typeparam>
         /// <param name="collection"> Collection to be searched. Can be nested. </param>

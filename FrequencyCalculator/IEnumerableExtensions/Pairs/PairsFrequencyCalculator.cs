@@ -7,7 +7,10 @@ namespace FrequencyCalculator.IEnumerableExtensions
 {
     public static class PairsFrequencyCalculator
     {
-        /// <summary> Calculates all distinct pairs from a nested collection and their frequencies </summary>
+        /// <summary>
+        /// Calculates all distinct pairs from a nested collection and their frequencies. For custom types ensure you
+        /// override GetHashCode when implementing IEquatable for correct grouping.
+        /// </summary>
         /// <typeparam name="T"> Type of the base element that must implement IComparable </typeparam>
         /// <param name="nestedCollection"> </param>
         /// <returns> List of Pairs object sorted in descending order of frequency </returns>
