@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrequencyConsole", "FrequencyConsole\FrequencyConsole.csproj", "{A3E3425A-88EC-4436-901E-D4615FD43E9A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrequencyCalculator", "FrequencyCalculator\FrequencyCalculator.csproj", "{B48BBDC2-0EF5-44EF-8580-1121788D7EE2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrequencyCalculator.Tests", "FrequencyCalculatorTests\FrequencyCalculator.Tests.csproj", "{FB613FB5-119D-46ED-98AA-9E6D37067B28}"
@@ -15,10 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A3E3425A-88EC-4436-901E-D4615FD43E9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3E3425A-88EC-4436-901E-D4615FD43E9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3E3425A-88EC-4436-901E-D4615FD43E9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3E3425A-88EC-4436-901E-D4615FD43E9A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B48BBDC2-0EF5-44EF-8580-1121788D7EE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B48BBDC2-0EF5-44EF-8580-1121788D7EE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B48BBDC2-0EF5-44EF-8580-1121788D7EE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
