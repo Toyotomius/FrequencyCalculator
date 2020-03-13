@@ -12,7 +12,7 @@ namespace FrequencyCalculator.IEnumerableExtensions
         /// </summary>
         /// <typeparam name="T"> Type of collection elements to be calculated. Must implement IComparable </typeparam> 
         /// <param name="collection"> Collection to be searched. Can be nested. </param> 
-        /// <param name="values"> Collection of values you want the frequency of </param> 
+        /// <param name="values"> Collection of values you want the frequency of. Ignores null elements </param> 
         /// <param name="IsSorted">
         /// False: Linear search for unsorted or nested collections.
         /// True: Binary search for flat sorted collections (much faster) 
@@ -23,6 +23,7 @@ namespace FrequencyCalculator.IEnumerableExtensions
         {
             foreach (var value in values)
             {
+                if(value is null) { continue; }
                 yield return collection.CalculateSingles(value, IsSorted);
             }
         }
