@@ -7,7 +7,10 @@ namespace FrequencyCalculator.IEnumerableExtensions
 {
     public static class TripletsFrequencyCalculator
     {
-        /// <summary> Calculates frequency of distinct tripets in nested collection. </summary>
+        /// <summary>
+        /// Calculates frequency of distinct tripets in nested collection. For custom types ensure you override
+        /// GetHashCode when implementing IEquatable for correct grouping.
+        /// </summary>
         /// <typeparam name="T"> Type of base element in collections </typeparam>
         /// <param name="nestedCollection"> Nested collection to calculate triplet frequency from </param>
         /// <returns> List of triplets objects in descending order of frequency </returns>

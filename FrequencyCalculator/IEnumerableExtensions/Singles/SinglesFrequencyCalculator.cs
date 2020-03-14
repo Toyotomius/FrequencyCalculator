@@ -6,13 +6,13 @@ using System.Linq;
 
 namespace FrequencyCalculator.IEnumerableExtensions
 {
-    /// <summary> Class containing methods to calculate individual item frequency in flat and nested lists </summary>
+    /// <summary> Class containing methods to calculate distinct individual item frequency in flat and nested lists </summary>
 
     public static class CalculateIndividualFrequency
     {
         /// <summary>
-        /// Calculates frequency of individual items from collections. Uses recursion to flatten nested collections.
-        /// For custom types ensure you override GetHashCode when implementing IEquatable for correct grouping.
+        /// Calculates frequency of distinct individual items from collections. Uses recursion to flatten nested collections. For
+        /// custom types ensure you override GetHashCode when implementing IEquatable for correct grouping.
         /// </summary>
         /// <typeparam name="T"> Type of collection elements to be calculated. Must implement IComparable </typeparam>
         /// <param name="collection"> </param>
@@ -31,6 +31,5 @@ namespace FrequencyCalculator.IEnumerableExtensions
                          }).ToList();
             return query;
         }
-        
     }
 }

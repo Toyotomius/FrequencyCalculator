@@ -1,13 +1,9 @@
-﻿using FrequencyCalculator;
-using FrequencyCalculator.DataModels;
-using FrequencyCalculator.IEnumerableExtensions;
+﻿using FrequencyCalculator.IEnumerableExtensions;
+using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Linq.Expressions;
+using System.IO;
 
 namespace FrequencyConsole
 {
@@ -15,71 +11,29 @@ namespace FrequencyConsole
     {
         private static void Main(string[] args)
         {
-            var watch = new Stopwatch();
             var rand = new Random();
+            var watch = new Stopwatch();
 
-            //string json = "";
-            //using (var sr = new StreamReader("sortedlist.json"))
-            //{
-            //    json = sr.ReadToEnd();
-            //}
+            var jsonString = "";
 
-            //var list = JsonConvert.DeserializeObject<List<int>>(json);
-            //watch.Start();
-            //var result = list.CalculateSingles<int>();
-            //watch.Stop();
-            //foreach(var itm in result)
-            //{
-            //    Console.WriteLine($"{itm.Item}  : {itm.Frequency}");
-            //}
-
-            //Console.WriteLine(watch.ElapsedMilliseconds);
-
-            var valuesPassed = new List<List<TestClass>>
+            using (var sr = new StreamReader(@"D:\VS Solutions\FrequencyCalculator\FrequencyConsole\bin\Debug\netcoreapp3.1\pairstest.json"))
             {
-                new List<TestClass>{ new TestClass { First = 1, Second = 2 }, new TestClass { First = 3, Second = 4 }, new TestClass { First = 5, Second = 6 }  },
-                new List<TestClass>{ new TestClass { First = 1, Second = 2 }, new TestClass { First = 3, Second = 4 }, new TestClass { First = 5, Second = 6 }  },
-                new List<TestClass>{ new TestClass { First = 3, Second = 4 }, new TestClass { First = 2, Second = 3 }, new TestClass { First = 2, Second = 4 }  },
-
-            };
-            var valueToFind = new List<List<TestClass>> {
-                new List<TestClass> { new TestClass { First = 1, Second = 2 }, new TestClass { First = 3, Second = 4  } }
-            };
-            var group = valuesPassed.CalculateTriplets(valueToFind);
-
-            foreach (var itm in group)
-            {
-                Console.WriteLine($"{itm.Item.First} :: {itm.Item.Second} /// {itm.Item2.First} -- {itm.Item2.Second} :::: {itm.Frequency}");
+                jsonString = sr.ReadToEnd();
             }
+            var valuesPassed = JsonConvert.DeserializeObject<List<List<int>>>(jsonString);
 
+            var valuesToFind = new List<List<int>> { new List<int> { 14, 5 }, new List<int> { 9, 2 } };
 
-            //TODO: Set up check for binary search and nested collections.
-            //TODO: Set up binary search for pairs & triplets.
-        }
-
-        public class TestClass : IComparable<TestClass>, IEquatable<TestClass>
-        {
-            public int First { get; set; }
-
-            public int? Second { get; set; }
-
-            public int CompareTo(TestClass other)
+            watch.Start();
+            var results = valuesPassed.CalculatePairs(valuesToFind, false);
+            foreach(var result in results)
             {
-                return this.First.CompareTo(other.First);
+                Console.WriteLine($"{result.Item} - {result.Item2} ::: {result.Frequency}");
             }
+            
 
-            public bool Equals(TestClass other)
-            {
-                return this.First.Equals(other.First) && this.Second.Equals(other.Second);
-            }
-
-            public override int GetHashCode()
-            {
-                int hash = 17;
-                hash = hash * 23 + First.GetHashCode();
-                hash = hash * 23 + Second.GetHashCode();
-                return hash;
-            }
+            watch.Stop();
+            Console.WriteLine(watch.ElapsedMilliseconds);
         }
     }
 }

@@ -120,9 +120,9 @@ namespace FrequencyCalculator.Tests
         [Fact]
         public void ThrowArgumentExceptionWhenPassed_LessThanTwoDistinctElements()
         {
-            var nestedList = new List<List<int>> { new List<int> { 1, 1 }, new List<int> { 1, 1 } };
+            var valuesPassed = new List<List<int>> { new List<int> { 1, 1 }, new List<int> { 1, 1 } };
 
-            Assert.Throws<ArgumentException>(() => nestedList.CalculatePairs());
+            Assert.Throws<ArgumentException>(() => valuesPassed.CalculatePairs());
         }
 
         [Fact]
@@ -155,7 +155,7 @@ namespace FrequencyCalculator.Tests
             var valueToFind = new List<TestClass> {
                 new TestClass { First = 1, Second = 2 }
             };
-            Assert.Throws<ArgumentException>(() => valuesPassed.CalculatePairs(valueToFind));
+            Assert.Throws<ArgumentException>(() => valuesPassed.CalculatePairs(valueToFind, false));
         }
 
         #endregion CustomType
@@ -165,7 +165,7 @@ namespace FrequencyCalculator.Tests
         [Fact]
         public void CalculateWhenMainCollectionHasNullsAndPassed_SpecificCollectionOfPairs()
         {
-            var nestedList = new List<List<int>> { new List<int> { 1, 2 }, null,
+            var valuesPassed = new List<List<int>> { new List<int> { 1, 2 }, null,
                                                    new List<int> { 1, 2 }, new List<int> { 3, 4 } };
             var itemsToFind = new int[][] { new int[] { 1, 2 }, new int[] { 3, 4 } };
 
@@ -175,7 +175,7 @@ namespace FrequencyCalculator.Tests
                 new Pairs<int> { Item = 3, Item2 = 4, Frequency = 1 }
             };
 
-            var actual = nestedList.CalculatePairs(itemsToFind);
+            var actual = valuesPassed.CalculatePairs(itemsToFind);
 
             var actualStr = JsonConvert.SerializeObject(actual);
             var expectedStr = JsonConvert.SerializeObject(expected);
@@ -186,7 +186,7 @@ namespace FrequencyCalculator.Tests
         [Fact]
         public void CalculateWhenPassed_SpecificCollectionOfPairs()
         {
-            var nestedList = new List<List<int>> { new List<int> { 1, 2 }, new List<int> { 1, 2 },
+            var valuesPassed = new List<List<int>> { new List<int> { 1, 2 }, new List<int> { 1, 2 },
                                                    new List<int> { 1, 2 }, new List<int> { 3, 4 } };
             var itemsToFind = new List<List<int>> { new List<int> { 1, 2 }, new List<int> { 3, 4 } };
 
@@ -196,7 +196,7 @@ namespace FrequencyCalculator.Tests
                 new Pairs<int> { Item = 3, Item2 = 4, Frequency = 1 }
             };
 
-            var actual = nestedList.CalculatePairs(itemsToFind);
+            var actual = valuesPassed.CalculatePairs(itemsToFind);
 
             var actualStr = JsonConvert.SerializeObject(actual);
             var expectedStr = JsonConvert.SerializeObject(expected);
@@ -207,7 +207,7 @@ namespace FrequencyCalculator.Tests
         [Fact]
         public void ReturnCountOf_SpecifiedValuesInCollection()
         {
-            var nestedInt = new List<List<string>>
+            var valuesPassed = new List<List<string>>
             {
                 new List<string> { "1","2", "3" },
                 new List<string> { "1","2", "3" }
@@ -215,26 +215,7 @@ namespace FrequencyCalculator.Tests
             var itemsToFind = new List<string> { "1", "2" };
             var expected = new Pairs<string> { Item = "1", Item2 = "2", Frequency = 2 };
 
-            var actual = nestedInt.CalculatePairs(itemsToFind);
-
-            var actualStr = JsonConvert.SerializeObject(actual);
-            var expectedStr = JsonConvert.SerializeObject(expected);
-
-            Assert.Equal(expectedStr, actualStr);
-        }
-
-        [Fact]
-        public void ReturnEmptyPairsWhenPassed_NullValueAsSpecifiedValue()
-        {
-            var nestedInt = new List<List<string>>
-            {
-                new List<string> { "1","2", "3" },
-                new List<string> { "1","2", "3" }
-            };
-            var itemsToFind = new List<string> { "1", null };
-            var expected = new Pairs<string> { };
-
-            var actual = nestedInt.CalculatePairs(itemsToFind);
+            var actual = valuesPassed.CalculatePairs(itemsToFind, false);
 
             var actualStr = JsonConvert.SerializeObject(actual);
             var expectedStr = JsonConvert.SerializeObject(expected);
@@ -245,7 +226,7 @@ namespace FrequencyCalculator.Tests
         [Fact]
         public void ThrowArgumentErrorWhenNotPassed_TwoDistinctElementsToFind()
         {
-            var nestedList = new List<List<string>>
+            var valuesPassed = new List<List<string>>
             {
                 new List<string> { "1","2" },
                 new List<string> { "1","2" }
@@ -253,52 +234,79 @@ namespace FrequencyCalculator.Tests
 
             var itemsToFind = new List<string> { "1" };
 
-            Assert.Throws<ArgumentException>(() => nestedList.CalculatePairs(itemsToFind));
+            Assert.Throws<ArgumentException>(() => valuesPassed.CalculatePairs(itemsToFind, false));
+        }
+
+        [Fact]
+        public void ThrowArgumentExceptionWhen_NullValueAsSpecifiedValue()
+        {
+            var valuesPassed = new List<List<string>>
+            {
+                new List<string> { "1","2", "3" },
+                new List<string> { "1","2", "3" }
+            };
+            var itemsToFind = new List<string> { "1", null };
+
+            Assert.Throws<ArgumentException>(() => valuesPassed.CalculatePairs(itemsToFind, false));
         }
 
         [Fact]
         public void ThrowArgumentExceptionWhen_SubCollectionOfSpecificGroupHasNull()
         {
-            var nestedList = new List<List<string>> { new List<string> { "1", "2", "3" }, new List<string> { "1", "2", "3" },
-                                                   new List<string> { "1", "2", "3" }, new List<string> { "3", "4", "5" } };
+            var valuesPassed = new List<List<string>> { new List<string> { "1", "2", "3" }, new List<string> { "1", "2", "3" },
+                                                        new List<string> { "1", "2", "3" }, new List<string> { "3", "4", "5" } };
             var itemsToFind = new List<List<string>> { new List<string> { "1", "2", "3" }, new List<string> { "3", "4", null } };
 
             // Due to deferred execution, have to run the foreach to force the exception.
-            Action act = () => { var result = nestedList.CalculatePairs(itemsToFind); foreach (var itm in result) { } };
+            Action act = () => { var result = valuesPassed.CalculatePairs(itemsToFind); foreach (var itm in result) { } };
             Assert.Throws<ArgumentException>(act);
         }
-
-        #endregion FindingSpecificValues
-
         [Fact]
-        public void CalculateWhenPassed_NestedIntList()
+        public void CalculateWhenIsSortedEqualsTruePassed()
         {
-            var nestedInt = new List<List<int>>
-            {
-                new List<int> { 1,2 },
-                new List<int> { 1,2 }
-            };
-            var expected = new List<Pairs<int>> { new Pairs<int> { Item = 1, Item2 = 2, Frequency = 2 } };
+            var valuesPassed = new List<List<string>> { new List<string> { "1", "2", "3" }, new List<string> { "1", "2", "4" },
+                                                        new List<string> { "1", "2", "3" }, new List<string> { "3", "4", "5" } };
+            var itemsToFind = new List<string> { "1", "3" };
 
-            var actual = nestedInt.CalculatePairs();
+            var expected = new Pairs<string> { Item = "1", Item2 = "3", Frequency = 2 };
 
+            var actual = valuesPassed.CalculatePairs(itemsToFind, true);
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
+        }
+        [Fact]
+        public void CalculateWhenIsSortedEqualsTrueWhenPassed_GroupOfSpecificPairs()
+        {
+            var valuesPassed = new List<List<string>> { new List<string> { "1", "2", "3" }, new List<string> { "1", "2", "4" },
+                                                        new List<string> { "1", "2", "3" }, new List<string> { "2", "4", "5" } };
+
+            var itemsToFind = new List<List<string>> { new List<string> { "1", "3" }, new List<string> { "2", "4" } };
+
+            var expected = new List<Pairs<string>> { new Pairs<string> {Item = "1", Item2 = "3", Frequency = 2 },
+                                                     new Pairs<string> {Item = "2", Item2 = "4", Frequency = 2 } };
+
+            var actual = valuesPassed.CalculatePairs(itemsToFind, true);
             var actualStr = JsonConvert.SerializeObject(actual);
             var expectedStr = JsonConvert.SerializeObject(expected);
 
             Assert.Equal(expectedStr, actualStr);
         }
 
+        #endregion FindingSpecificValues
+
         [Fact]
         public void CalculateWhenPassed_NestedStringList()
         {
-            var nestedInt = new List<List<string>>
+            var valuesPassed = new List<List<string>>
             {
                 new List<string> { "1","2" },
                 new List<string> { "1","2" }
             };
             var expected = new List<Pairs<string>> { new Pairs<string> { Item = "1", Item2 = "2", Frequency = 2 } };
 
-            var actual = nestedInt.CalculatePairs();
+            var actual = valuesPassed.CalculatePairs();
 
             var actualStr = JsonConvert.SerializeObject(actual);
             var expectedStr = JsonConvert.SerializeObject(expected);
@@ -309,7 +317,7 @@ namespace FrequencyCalculator.Tests
         [Fact]
         public void CalculateWhenPassed_NullList()
         {
-            var nestedInt = new List<List<string>>
+            var valuesPassed = new List<List<string>>
             {
                 new List<string> { "1","2" },
                 new List<string> { "1","2" },
@@ -317,7 +325,7 @@ namespace FrequencyCalculator.Tests
             };
             var expected = new List<Pairs<string>> { new Pairs<string> { Item = "1", Item2 = "2", Frequency = 2 } };
 
-            var actual = nestedInt.CalculatePairs();
+            var actual = valuesPassed.CalculatePairs();
 
             var actualStr = JsonConvert.SerializeObject(actual);
             var expectedStr = JsonConvert.SerializeObject(expected);
@@ -328,14 +336,32 @@ namespace FrequencyCalculator.Tests
         [Fact]
         public void CalculateWhenPassed_NullValues()
         {
-            var nestedInt = new List<List<string>>
+            var valuesPassed = new List<List<string>>
             {
                 new List<string> { "1","2", null },
                 new List<string> { "1","2", null }
             };
             var expected = new List<Pairs<string>> { new Pairs<string> { Item = "1", Item2 = "2", Frequency = 2 } };
 
-            var actual = nestedInt.CalculatePairs();
+            var actual = valuesPassed.CalculatePairs();
+
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
+        }
+
+        [Fact]
+        public void CalculateWhenPassed_valuesPassedList()
+        {
+            var valuesPassed = new List<List<int>>
+            {
+                new List<int> { 1,2 },
+                new List<int> { 1,2 }
+            };
+            var expected = new List<Pairs<int>> { new Pairs<int> { Item = 1, Item2 = 2, Frequency = 2 } };
+
+            var actual = valuesPassed.CalculatePairs();
 
             var actualStr = JsonConvert.SerializeObject(actual);
             var expectedStr = JsonConvert.SerializeObject(expected);

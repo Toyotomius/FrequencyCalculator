@@ -13,7 +13,7 @@ namespace FrequencyCalculator.Tests
         #region Theory
 
         [Theory, MemberData(nameof(NestedSinglesTestData.SinglesCanCalculate_NestedData), MemberType = typeof(NestedSinglesTestData))]
-        public void CalculateWhenPassed_NestedListsOrArrays<T>(IEnumerable<IEnumerable<T>> nestedData) where T : IComparable<T>, IEquatable<T>
+        public void CalculateWhenPassed_NestedListsOrArrays<T>(IEnumerable<IList<T>> nestedData) where T : IComparable<T>, IEquatable<T>
         {
             var actual = nestedData.CalculateSingles<T>();
 
@@ -22,7 +22,7 @@ namespace FrequencyCalculator.Tests
 
         [Theory]
         [MemberData(nameof(NestedSinglesTestData.SinglesReturnEmpty_EmptyNestedData), MemberType = typeof(NestedSinglesTestData))]
-        public void ReturnEmptyWhenPassed_EmptyListsOrArrays<T>(IEnumerable<IEnumerable<T>> emptyData) where T : IComparable<T>, IEquatable<T>
+        public void ReturnEmptyWhenPassed_EmptyListsOrArrays<T>(IEnumerable<IList<T>> emptyData) where T : IComparable<T>, IEquatable<T>
         {
             var actual = emptyData.CalculateSingles<T>();
 
@@ -178,7 +178,7 @@ namespace FrequencyCalculator.Tests
 
             var expected = new Singles<string> { Item = "1", Frequency = 2 };
 
-            var actual = stringList.CalculateSingles<string>(valuePassed, true);
+            var actual = stringList.CalculateSingles(valuePassed, true);
             var actualStr = JsonConvert.SerializeObject(actual);
             var expectedStr = JsonConvert.SerializeObject(expected);
 
@@ -193,7 +193,7 @@ namespace FrequencyCalculator.Tests
 
             var expected = new Singles<string> { Item = "1", Frequency = 2 };
 
-            var actual = stringList.CalculateSingles<string>(valuePassed, false);
+            var actual = stringList.CalculateSingles(valuePassed, false);
             var actualStr = JsonConvert.SerializeObject(actual);
             var expectedStr = JsonConvert.SerializeObject(expected);
 
@@ -209,7 +209,49 @@ namespace FrequencyCalculator.Tests
             var expected = new List<Singles<string>>{ new Singles<string> { Item = "1", Frequency = 2 },
                                                       new Singles<string> { Item = "2", Frequency = 1 }};
 
-            var actual = stringList.CalculateSingles<string>(valuesPassed, false);
+            var actual = stringList.CalculateSingles(valuesPassed, false);
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
+        }
+        [Fact]
+        public void CalculateWithNestedData_SpecifiedValuePassed()
+        {
+            var valuesPassed = new List<List<string>>
+            {
+                new List<string>{"1", "2" },
+                new List<string>{"1", "2" }
+            };
+
+            var valueToFind = "1";
+
+            var expected = new Singles<string> { Item = "1", Frequency = 2 };
+
+            var actual = valuesPassed.CalculateSingles(valueToFind);
+            var actualStr = JsonConvert.SerializeObject(actual);
+            var expectedStr = JsonConvert.SerializeObject(expected);
+
+            Assert.Equal(expectedStr, actualStr);
+        }
+        [Fact]
+        public void CalculateWithNestedData_SpecifiedGroupOfValuesPassed()
+        {
+            var valuesPassed = new List<List<string>>
+            {
+                new List<string>{"1", "2", "3" },
+                new List<string>{"1", "2", "4" }
+            };
+
+            var valueToFind = new List<string> { "1", "2" };
+
+            var expected = new List<Singles<string>> 
+            { 
+               new Singles<string> { Item = "1", Frequency = 2 },
+               new Singles<string> { Item = "2", Frequency = 2 }
+            };
+
+            var actual = valuesPassed.CalculateSingles(valueToFind);
             var actualStr = JsonConvert.SerializeObject(actual);
             var expectedStr = JsonConvert.SerializeObject(expected);
 
