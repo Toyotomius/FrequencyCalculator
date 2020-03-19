@@ -215,7 +215,7 @@ The overloads will throw Argument Exception if the items passed do not contain t
 
 Ignores null items in the collection passed in the same way as CalculateSingles.
 
-Will also ignore nulls passed as part of the specific pair to search for:
+Will also ignore nulls passed as part of the specific triplet to search for:
 ```
 var itemsToFind = new List<string> {"1", "2", "3", null};
 var results = itemsToFind.CalculateTriplets(itemsToFind); // Will discard the null value
