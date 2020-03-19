@@ -29,18 +29,18 @@ namespace FrequencyCalculator.IEnumerableExtensions
                 var distinct = pair.Distinct().Where(x => x is object);
                 if (distinct.Count() != 2)
                 {
-                    throw new ArgumentException($"Group {index} of {nameof(pair)} in {nameof(pairGroup)} does not contain exactly three distinct values");
+                    throw new ArgumentException($"Group {index} of {nameof(pair)} in {nameof(pairGroup)} does not contain exactly two distinct values");
                 }
 
-                if (IsSorted) 
+                if (IsSorted)
                 {
                     var frequency = SpecificCollectionSorted.CalculateFrequencyOfGroup(nestedCollection, pair);
                     yield return new Pairs<T> { Item = pair[0], Item2 = pair[1], Frequency = frequency };
                 }
 
                 else { yield return SpecificPairsUnSorted.CalculateSpecificPairsUnSorted(nestedCollection, pair); }
-                    
-                
+
+
                 index++;
             }
         }
