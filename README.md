@@ -10,6 +10,10 @@ IComparable<T>, IEquatable<T> and override GetHashCode when implementing IEquata
 * CalculatePairs
 * CalculateTriplets
 
+#### To use methods add using statement:
+```
+using FrequencyCalculator.IEnumerableExtensions;
+```
 
 ### IEnumerable\<T> Flatten<T>(this IEnumerable enumerable)
 
